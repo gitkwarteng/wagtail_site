@@ -1,4 +1,3 @@
-# from .base import INSTALLED_APPS, MIDDLEWARE, TEMPLATES
 
 WAGTAIL_APPS = [
     "wagtail.contrib.forms",
@@ -26,29 +25,6 @@ WAGTAIL_MIDDLEWARE = [
 WAGTAIL_TEMPLATES = [
     "wagtail.contrib.settings.context_processors.settings"
 ]
-
-
-# Wagtail settings
-
-# Search
-# https://docs.wagtail.org/en/stable/topics/search/backends.html
-WAGTAILSEARCH_BACKENDS = {
-    "default": {
-        "BACKEND": "wagtail.search.backends.database",
-    }
-}
-
-WAGTAIL_SITE_NAME = "portfolio"
-
-# Base URL to use when referring to full URLs within the Wagtail admin backend -
-# e.g. in notification emails. Don't include '/admin' or a trailing slash
-WAGTAILADMIN_BASE_URL = "http://kwarteng.dev"
-
-# Allowed file extensions for documents in the document library.
-# This can be omitted to allow all files, but note that this may present a security risk
-# if untrusted users are allowed to upload files -
-# see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
-WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
 
 
 def add_wagtail_settings(installed_apps, middlewares, templates):
@@ -94,4 +70,3 @@ def add_wagtail_settings(installed_apps, middlewares, templates):
             if template not in templates[0]["OPTIONS"]["context_processors"]:
                 templates[0]["OPTIONS"]["context_processors"].append(template)
 
-    # settings.TEMPLATES = tuple(updated_templates)

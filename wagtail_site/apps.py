@@ -1,7 +1,5 @@
 from django.apps import AppConfig
 
-from .defaults import add_wagtail_settings
-
 
 class CommonConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
