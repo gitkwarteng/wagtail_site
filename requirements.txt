@@ -1,0 +1,6 @@
+Django>=4.2,
+django-widget-tweaks>=1.5.0
+django-modelcluster>=6.4
+django-taggit>=6.1.0
+wagtail>=6.4.1
+setuptools

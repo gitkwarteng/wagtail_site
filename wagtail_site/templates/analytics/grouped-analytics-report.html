@@ -1,0 +1,156 @@
+{% extends 'dashboard/layouts/base.html' %}
+
+{% load template_filters %}
+
+{% load static %}
+
+{% block css %}
+   
+{% endblock %}
+
+{% block js %}
+
+
+{% endblock %}
+
+{% load thumbnail %}
+
+{% load i18n %}
+
+{% load django_tables2 %}
+
+{% comment %} {% load render_table from django_tables2 %} {% endcomment %}
+
+{% load export_url from django_tables2 %}
+
+{% block title %} {{ title|title }} | {{ block.super }} {% endblock %}
+
+
+{% block breadcrumbs %}
+        <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Dashboard</a></li>
+        <li class="breadcrumb-item">{{title}}</li>
+{% endblock %}
+
+{% block content %}
+<div class="col">
+    <div class="card">
+    <!-- Card header -->
+          <div class="card-header border-0">
+                  {% include 'dashboard/filter.html' %}
+          </div>
+
+{#        {% include "common/includes/advance-filter-modal.html" with form=advance_form style='horizontal' %}#}
+
+        <div class="card-body">
+
+            <div class="user-status latest-order-table">
+
+                {% block table_wrapper %}
+                    <div class="table-container">
+                        {% block table %}
+                            <table {% render_attrs tables.0.table.attrs %}>
+                                {% block tables.0.table.thead %}
+                                {% if tables.0.table.show_header %}
+                                    <tbody {{ tables.0.table.attrs.tbody.as_html }}>
+                                    {% for table_dict in tables %}
+                                        {% if table_dict.table.data %}
+                                            <tr>
+                                                <td colspan="11">
+                                                    <h5> {{ table_dict.heading }} </h5>
+                                                </td>
+                                            </tr>
+
+                                            {% with table_dict.table as table %}
+
+                                                {% for row in table.paginated_rows %}
+                                                    {% block table.tbody.row %}
+                                                        <tr {{ row.attrs.as_html }}>
+                                                            {% for column, cell in row.items %}
+                                                                <td {{ column.attrs.td.as_html }}>{% if column.localize == None %}{{ cell }}{% else %}{% if column.localize %}{{ cell|localize }}{% else %}{{ cell|unlocalize }}{% endif %}{% endif %}</td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    {% endblock table.tbody.row %}
+                                                {% empty %}
+                                                    {% if table.empty_text %}
+                                                        {% block table.tbody.empty_text %}
+                                                            <tr><td colspan="{{ table.columns|length }}">{{ table.empty_text }}</td></tr>
+                                                        {% endblock table.tbody.empty_text %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+                                                {% block table.tfoot %}
+                                                    {% if table.has_footer %}
+                                                        {% comment %} <tfoot {{ table.attrs.tfoot.as_html }}> {% endcomment %}
+                                                        <tr>
+                                                            {% for column in table.columns %}
+                                                                <td {{ column.attrs.tf.as_html }}> <b> {{ column.footer }} </b> </td>
+                                                            {% endfor %}
+                                                        </tr>
+                                                        {% comment %} </tfoot> {% endcomment %}
+                                                    {% endif %}
+                                                {% endblock table.tfoot %}
+
+                                            {% endwith %}
+                                            <tr>
+                                                <td colspan="4">
+                                            {% include 'common/includes/table_paginator.html' with table=table_dict.table %}
+
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    </tbody>
+                                {% endif %}
+                                {% endblock tables.0.table.thead %}
+                                {% block tables.0.table.tbody %}
+                                    <thead {{ tables.0.table.attrs.thead.as_html }}>
+                                        <tr>
+                                        {% for column in tables.0.table.columns %}
+                                            <th {{ column.attrs.th.as_html }} >
+                                                {% if column.orderable %}
+                                                    <a href="{% querystring tables.0.table.prefixed_order_by_field=column.order_by_alias.next %}">{{ column.header }}</a>
+                                                {% else %}
+                                                    {{ column.header }}
+                                                {% endif %}
+                                            </th>
+                                        {% endfor %}
+                                        </tr>
+                                    </thead>
+                                {% endblock tables.0.table.tbody %}
+                                
+                                
+                            </table>
+                        {% endblock table %}
+
+                        
+                    </div>
+                    {% endblock table_wrapper %}
+
+            </div>
+
+            <div class="btn-popup pull-right d-print-none">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-mdb-toggle="dropdown" aria-expanded="false" >
+                        DOWNLOAD
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li> <a class="dropdown-item" href="{% export_url "csv" %}"  >{% translate "CSV" %}</a> </li>
+                        {% comment %} <li> <a class="dropdown-item" href="{% export_url "xlsx" %}" >{% translate "Excel" %}</a> </li> {% endcomment %}
+                        
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+            
+    <script type="text/javascript">
+        // var grid_data = {
+        //     model: "{{ model }}",
+        //     url: "{{ fetch }}"
+        
+        // };
+    </script>
+</div>
+{% endblock %}

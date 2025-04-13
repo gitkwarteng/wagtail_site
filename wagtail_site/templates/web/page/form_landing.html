@@ -1,0 +1,12 @@
+{% extends "web/page/base.html" %}
+
+{% block child_crumbs %}
+    {% include 'web/layout/includes/breadcrumbs-icon.html' %}
+    <li class="tmp-breadcrumb-item active">Success</li>
+{% endblock %}
+
+{% block content %}
+
+    <div>{{ page.thank_you_text|richtext }}</div>
+
+{% endblock %}

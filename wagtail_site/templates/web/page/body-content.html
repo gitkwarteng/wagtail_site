@@ -1,0 +1,8 @@
+
+{% for block in content %}
+    {% with block.value.heading as heading %}
+    	<h2 class="{% if heading.size == 'h1' %}title{% else %}mini-title{% endif %}">{{ heading.title|striptags }}</h2>
+    {% endwith %}
+    <p class="docs">{{ block.value.content|safe }}</p>
+
+{% endfor %}
