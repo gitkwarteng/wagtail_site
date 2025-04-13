@@ -57,8 +57,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('sort_order', models.IntegerField(blank=True, editable=False, null=True)),
-                ('field', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='common.formfield')),
-                ('form', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='fields', to='common.pageform')),
+                ('field', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='+', to='wagtail_site.formfield')),
+                ('form', modelcluster.fields.ParentalKey(on_delete=django.db.models.deletion.CASCADE, related_name='fields', to='wagtail_site.pageform')),
             ],
             options={
                 'ordering': ['sort_order'],
@@ -100,7 +100,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('intro', wagtail.fields.RichTextField(blank=True, null=True)),
                 ('body', wagtail.fields.StreamField([('body', 9)], blank=True, block_lookup={0: ('wagtail.blocks.TextBlock', (), {'required': False}), 1: ('wagtail.blocks.CharBlock', (), {'form_classname': 'title'}), 2: ('wagtail.blocks.CharBlock', (), {'required': False}), 3: ('wagtail.blocks.ChoiceBlock', [], {'choices': [('', 'Size'), ('h1', 'Header 1'), ('h2', 'Header 2'), ('h3', 'Header 3'), ('h4', 'Header 4'), ('h5', 'Header 5')]}), 4: ('wagtail.blocks.ChoiceBlock', [], {'choices': [('lft', 'Left'), ('top', 'Top'), ('rt', 'Right'), ('btm', 'Bottom'), ('ctr', 'Center'), ('tpl', 'Top Left'), ('tpr', 'Top Right'), ('btl', 'Bottom Left'), ('btr', 'Bottom Right')]}), 5: ('wagtail.blocks.StructBlock', [[('title', 1), ('subtitle', 2), ('size', 3), ('position', 4)]], {'required': False}), 6: ('wagtail.blocks.RichTextBlock', (), {'required': False}), 7: ('wagtail.images.blocks.ImageBlock', [], {}), 8: ('wagtail.blocks.StructBlock', [[('image', 7), ('caption', 2), ('attribution', 2)]], {'required': False}), 9: ('wagtail.blocks.StructBlock', [[('icon', 0), ('heading', 5), ('content', 6), ('image', 8), ('alignment', 4)]], {})})),
-                ('banner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='common.webpagebanner', verbose_name='Banner')),
+                ('banner', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='wagtail_site.webpagebanner', verbose_name='Banner')),
             ],
             options={
                 'abstract': False,
