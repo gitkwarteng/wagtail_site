@@ -1,0 +1,42 @@
+{% load template_filters wagtailimages_tags %}
+
+{% if page.search_description %}
+    <meta name="description" content="{{ page.search_description|striptags }}">
+{% endif %}
+{% if page.search_summary %}
+    <meta name="summary" content="{{ page.search_summary|striptags }}">
+{% endif %}
+{% if page.search_subject %}
+    <meta name="subject" content="{{ page.search_subject }}">
+{% endif %}
+    <meta name="created" content="{% now "jS M Y h:i" %}" />
+    <meta name="robots" content="NOARCHIVE,NOCACHE" />
+    <meta name="topic" content="{{ meta_topic }}">
+    <meta name="keywords" content="{{ page.search_description.split|join:","|striptags }}">
+
+    {% image settings.common.SiteSettings.logo width-400 as logo %}
+
+    <meta property="og:title" content="{% include 'web/layout/includes/title.html' %}{% include 'web/layout/includes/site-name.html' %}">
+    <meta property="og:description" content="{{ page.search_description|striptags }}">
+    <meta property="og:image" content="{{ logo.full_url }}">
+    <meta property="og:url" content="{{ request.path }}">
+
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="{% include 'web/layout/includes/title.html' %}">
+
+    <!-- Chrome for Android theme color -->
+    <meta name="theme-color" content="#4A2192FF">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="{% include 'web/layout/includes/title.html' %}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+    <link rel="apple-touch-icon" href="{{ logo.full_url }}" sizes="">
+    <link href="{{ logo.full_url }}" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image"/>
+
+    <!-- Tile for Win8 -->
+    <meta name="msapplication-TileColor" content="#4A2192FF">
+    <meta name="msapplication-TileImage" content="{{ logo.full_url }}">

@@ -1,0 +1,33 @@
+{% load wagtailcore_tags navigation_tags %}
+
+{% get_site_root as site_root %}
+
+<ul class="tmp-mainmenu">
+    <li>
+        <a href="{% pageurl site_root %}" class="{% include 'web/layout/includes/active-menu-indicator.html' with menu=site_root %}">Home
+        </a>
+    </li>
+
+    {% for menuitem in site_root.get_children.live.in_menu %}
+        {% with menuitem.get_children.live.in_menu as sub_menu %}
+            {% if sub_menu %}
+                <li class="has-dropdown">
+                    <a href="#">{{ menuitem.title }}
+                        <i class="fa-regular fa-chevron-down"></i>
+                    </a>
+                    <ul class="submenu">
+                        {% for sub_menuitem in sub_menu %}
+                            <li><a href="{% pageurl sub_menuitem %}"
+                            class="{% include 'web/layout/includes/active-menu-indicator.html' with menu=sub_menuitem %}" >
+                                {{ sub_menuitem.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% else %}
+                <li><a href="{% pageurl menuitem %}" class="{% include 'web/layout/includes/active-menu-indicator.html' with menu=menuitem %}">{{ menuitem.title }}</a></li>
+            {% endif %}
+        {% endwith %}
+
+    {% endfor %}
+
+</ul>

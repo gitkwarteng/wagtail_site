@@ -1,0 +1,11 @@
+{# :param logo_class #}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% get_site_root as site_root %}
+
+<a href="{% pageurl site_root %}">
+    {% with settings.common.SiteSettings as settings %}
+        {% image settings.logo width-30 class=logo_class|default:'' %}
+    {% endwith %}
+</a>

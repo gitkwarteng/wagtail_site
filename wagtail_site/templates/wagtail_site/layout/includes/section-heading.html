@@ -1,0 +1,21 @@
+{% comment %}
+    arguments:
+        subtitle
+        title
+        icon
+        desc
+{% endcomment %}
+
+<div class="section-header pb--20">
+    {% if subtitle %}
+        <h4 class="subtitle wow move-right">
+            <i class="fa-{{ icon_style|default:'regular' }} fa-{{ icon }}"></i> {{ subtitle }}
+        </h4>
+    {% endif %}
+    {% if title %}
+        <h2 class="title tmp-title-split">{{ title|safe }}</h2>
+    {% endif %}
+    {% if desc %}
+        <p class="about-desc">{{ desc|safe }}</p>
+    {% endif %}
+</div>

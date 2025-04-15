@@ -1,0 +1,37 @@
+{% load static %}
+
+<style>
+
+/* latin-ext */
+@font-face {
+    font-family: 'TTNorm';
+    font-style: normal;
+    font-weight: normal;
+    src:
+            url("{% static 'web/font/TT Norms Pro Regular.otf' %}") format('opentype'),
+            url("{% static 'web/font/tt-norms-pro-regular.woff' %}") format('woff'),
+        url("{% static 'web/font/tt-norms-pro-regular.woff2' %}") format('woff2');
+    font-display: swap;
+  }
+
+  /* latin */
+  @font-face {
+    font-family: 'TTNormBold';
+    font-style: normal;
+    font-weight: bold;
+    src:
+            url("{% static 'web/font/TT Norms Pro Bold.otf' %}") format('opentype')
+      url("{% static 'web/font/tt-norms-pro-bold.woff' %}") format('woff'),
+        url("{% static 'web/font/tt-norms-pro-bold.woff2' %}") format('woff2');
+      font-display: swap;
+  }
+/* latin */
+  @font-face {
+    font-family: 'Poynter';
+    font-style: normal;
+    font-weight: bold;
+    src: url("{% static 'web/font/PoynterOldStyleDisplay-SemiBold.otf' %}") format('opentype');
+      font-display: swap;
+  }
+
+</style>

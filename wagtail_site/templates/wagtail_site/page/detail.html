@@ -1,0 +1,41 @@
+{% extends "wagtail_site/page/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block child_crumbs %}
+    {% include 'wagtail_site/layout/includes/breadcrumbs-icon.html' %}
+    <li class="tmp-breadcrumb-item active"><a href="{% slugurl page.slug %}">{{ page.name }}</a></li>
+    {% include 'wagtail_site/layout/includes/breadcrumbs-icon.html' %}
+    <li class="tmp-breadcrumb-item active">{{ page.title }}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="project-details-area-wrapper tmp-section-gap">
+        <div class="container">
+            <div class="row">
+
+                {% include 'wagtail_site/includes/page-banner.html' %}
+
+                {% include 'wagtail_site/page/body-content.html' with content=page.body %}
+
+                <!-- Tpm Get In touch start -->
+                    {% if form.fields %}
+                        <section class="get-in-touch-area pt--80">
+                            <div class="container p-0">
+                                <div class="contact-get-in-touch-wrap">
+                                    <div class="get-in-touch-wrapper tmponhover">
+                                        <div class="row g-5 align-items-center">
+                                            <div class="col-lg-12">
+                                                {% include 'wagtail_site/includes/contact-form.html' %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    {% endif %}
+                    <!-- Tpm Get In touch End -->
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

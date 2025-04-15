@@ -1,0 +1,44 @@
+{% load i18n %}
+{% load static %}
+{% load wagtailcore_tags navigation_tags wagtailimages_tags %}
+
+<!--HEADER-->
+<header class="header-full-width header--sticky">
+    <div class="container-fluid-13">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="header-fluid-main-wrapper">
+                    <div class="left-area">
+
+                        {% get_site_root as site_root %}
+
+                        <div class="logo">
+                            {% include 'wagtail_site/layout/includes/site-logo.html' with logo_class="logo-dark" %}
+                        </div>
+
+
+                        <nav class="tmp-mainmenu-nav d-none d-xl-block">
+                            {% include 'web/layout/includes/main-menu.html' %}
+                        </nav>
+                    </div>
+                    <div class="right-area">
+
+                        {% include 'wagtail_site/layout/includes/site-root.html' with root_class='tmp-btn btn-primary' %}
+
+                        <div class="actions-area">
+                            <div class="tmp-side-collups-area d-none d-xl-block">
+                                <button class="tmp-menu-bars tmp_button_active"><i
+                                        class="fa-regular fa-bars-staggered"></i></button>
+                            </div>
+                            <div class="tmp-side-collups-area d-block d-xl-none">
+                                <button class="tmp-menu-bars humberger_menu_active"><i
+                                        class="fa-regular fa-bars-staggered"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!--END HEADER-->

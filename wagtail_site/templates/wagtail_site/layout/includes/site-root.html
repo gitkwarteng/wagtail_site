@@ -1,0 +1,7 @@
+{# :param label #}
+{# :param root_class #}
+{% load wagtailcore_tags navigation_tags %}
+
+{% get_site_root as site_root %}
+
+<a href="{% pageurl site_root.action_link|default:site_root %}" class="{{ root_class }}">{{ label }}</a>

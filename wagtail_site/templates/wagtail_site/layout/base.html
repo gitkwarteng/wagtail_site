@@ -1,0 +1,82 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no"/>
+
+    {% with settings.common.SiteSettings as settings %}
+        {% image settings.logo format-ico as favicon_image %}
+        {% image settings.logo width-400 as shortcut_image %}
+        <link rel="icon" type="image/x-icon" href="{{ favicon_image.url }}"/>
+        <link rel="shortcut icon" href="{{ shortcut_image.url }}" type="image/x-icon">
+    {% endwith %}
+
+    {% include 'wagtail_site/layout/includes/meta.html' %}
+
+    {# Force all links in the live preview panel to be opened in a new tab #}
+    {% if request.in_preview_panel %}
+        <base target="_blank">
+    {% endif %}
+
+    <title>
+        {% block title %}
+            {% include 'wagtail_site/layout/includes/title.html' %}
+        {% endblock %}
+        {% block title_suffix %}
+            {% include 'wagtail_site/layout/includes/site-name.html' %}
+        {% endblock %}
+    </title>
+
+    <meta name="author"
+          content="{% include 'wagtail_site/layout/includes/site-name.html' %}">
+
+    {% block stylesheets %}
+        {% include 'wagtail_site/layout/includes/css.html' %}
+    {% endblock %}
+
+
+    {% block page_css %} {% endblock %}
+
+    <!-- Google reCaptcha Script -->
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
+</head>
+
+<body class="{% block body_class %}personal-demo-left-fixed{% endblock %}">
+
+{% block header %}
+    {% include 'wagtail_site/layout/includes/header.html' %}
+{% endblock %}
+
+{% include 'wagtail_site/layout/includes/seo.html' %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block content %}
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'wagtail_site/layout/includes/footer.html' %}
+{% endblock %}
+
+<!-- floating whatsapp -->
+
+{% block floating_message_button %}{% include 'wagtail_site/layout/includes/floating-messenger-button.html' %}{% endblock %}
+
+<!-- floating whatsapp End -->
+
+{% block scroll_top_button %}{% include 'wagtail_site/layout/includes/floating-scroll-to-top-button.html' %}{% endblock %}
+
+
+{% block javascripts %}{% include 'wagtail_site/layout/includes/js.html' %}{% endblock %}
+
+{% block page_js %} {% endblock %}
+
+
+</body>
+</html>

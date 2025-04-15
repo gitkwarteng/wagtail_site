@@ -1,0 +1,71 @@
+{% load static wagtailcore_tags navigation_tags %}
+
+{% get_site_root as site_root %}
+{% wagtail_site as current_site %}
+<!-- START FOOTER -->
+{% with settings.common.SiteSettings as settings %}
+    <div class="tmp-footer-area-style-net tmp-section-gapTop">
+        <div class="footer-style-3">
+            <div class="tmp-callto-action tmp-call-to-action bg_patern-1 style-8 content-wrapper">
+                <div class="container">
+                    <div class="row row--0 align-items-center ">
+                        <div class="col-lg-12">
+                            <div class="inner">
+                                <div class="content text-center">
+                                    <h2 class="title sal-animate">Ready to start creating an <br> exceptional app?</h2>
+                                    <h6 class="subtitle sal-animate">Best choice for all your projects.</h6>
+                                    <div class="call-to-btn text-center mt--30 d-flex justify-content-center sal-animate"><a class="tmp-btn btn-icon"  href="{% pageurl site_root.action_link|default:site_root %}">{{ site_root.action_label }}<i class="icon feather-arrow-right"> </i></a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright-style-net">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-sm-12 col-12">
+                            <div class="copyright-left">
+                                <ul class="tmp-menu link-hover">
+                                    <li><a href="{% slugurl 'projects' %}">Projects</a></li>
+                                    <li><a href="{% slugurl 'contact' %}">Contact Me</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12 mt_sm--12">
+                            <div class="copyright-center text-center">
+                                <ul class="social-icon social-default justify-content-center">
+
+                                    <li><a target="_blank" href="{{ settings.linkedin }}">
+                                            <i class="fa-brands fa-linkedin-in"></i>
+                                        </a>
+                                    </li>
+                                    <li><a target="_blank" href="{{ settings.github }}">
+                                            <i class="fa-brands fa-github"></i>
+                                        </a>
+                                    </li>
+                                    <li><a target="_blank" href="{{ settings.discord }}">
+                                            <i class="fa-brands fa-discord"></i>
+                                        </a>
+                                    </li>
+                                    <li><a target="_blank" href="{{ settings.twitter }}">
+                                            <i class="fa-brands fa-twitter"></i>
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12 col-sm-12 col-sm-12 col-12 mt_md--20 mt_sm--20">
+                            <div class="copyright-right text-center text-lg-end">
+                                <p class="copyright-text">© Copyright All rights reserved <a href="{% pageurl site_root %}">{{ current_site.site_name }}</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endwith %}
+<!--/END FOOTER-->
