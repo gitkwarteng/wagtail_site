@@ -1,6 +1,7 @@
 import os
 
 from django.http import JsonResponse
+from django.conf import settings
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm, FormBuilder
@@ -8,6 +9,7 @@ from wagtail.contrib.forms.models import FormSubmission
 from wagtail.contrib.forms.views import SubmissionsListView
 
 from .operations import get_form_fields_for_page
+from .settings.defaults import WAGTAIL_SITE_TEMPLATES
 from .utils import accepts_html
 from .views import FormSubmissionsListView
 
@@ -165,3 +167,16 @@ class PageEmailForm(PageFormMixin):
         if self.form and self.form.to_address:
             self.form.send_mail(form)
         return submission
+
+
+class DefaultTemplatesMixin:
+    """A mixin that adds default templates to the page."""
+
+    def get_context(self, request,  *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context.update(self.get_templates())
+
+        return context
+
+    def get_templates(self):
+        return getattr(settings, "WAGTAIL_SITE_TEMPLATES", WAGTAIL_SITE_TEMPLATES)

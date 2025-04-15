@@ -34,8 +34,8 @@
     <meta name="author"
           content="{% include 'wagtail_site/layout/includes/site-name.html' %}">
 
-    {% block stylesheets %}
-        {% include 'wagtail_site/layout/includes/css.html' %}
+    {% block stylesheet %}
+        {% include style_template %}
     {% endblock %}
 
 
@@ -46,10 +46,10 @@
 
 </head>
 
-<body class="{% block body_class %}personal-demo-left-fixed{% endblock %}">
+<body class="{% block body_class %}{% endblock %}">
 
 {% block header %}
-    {% include 'wagtail_site/layout/includes/header.html' %}
+    {% include header_template %}
 {% endblock %}
 
 {% include 'wagtail_site/layout/includes/seo.html' %}
@@ -61,7 +61,7 @@
 {% endblock %}
 
 {% block footer %}
-    {% include 'wagtail_site/layout/includes/footer.html' %}
+    {% include footer_template %}
 {% endblock %}
 
 <!-- floating whatsapp -->
@@ -73,7 +73,9 @@
 {% block scroll_top_button %}{% include 'wagtail_site/layout/includes/floating-scroll-to-top-button.html' %}{% endblock %}
 
 
-{% block javascripts %}{% include 'wagtail_site/layout/includes/js.html' %}{% endblock %}
+{% block javascript %}
+    {% include script_template %}
+{% endblock %}
 
 {% block page_js %} {% endblock %}
 

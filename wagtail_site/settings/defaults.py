@@ -19,3 +19,12 @@ WAGTAILADMIN_BASE_URL = "http://kwarteng.dev"
 # if untrusted users are allowed to upload files -
 # see https://docs.wagtail.org/en/stable/advanced_topics/deploying.html#user-uploaded-files
 WAGTAILDOCS_EXTENSIONS = ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip']
+
+
+WAGTAIL_SITE_TEMPLATES = {
+    'style_template':'wagtail_site/layout/includes/css.html',
+    'script_template':'wagtail_site/layout/includes/js.html',
+    'header_template':'wagtail_site/layout/includes/header.html',
+    'footer_template':'wagtail_site/layout/includes/footer.html'
+
+}

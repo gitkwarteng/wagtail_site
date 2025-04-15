@@ -22,10 +22,10 @@ from wagtail.models import Page
 
 from .blocks import WebPageContentStreamBlock
 from .choices import HeadingSizeChoices, ContentAlignmentChoices
-from .mixins import PageEmailForm
+from .mixins import PageEmailForm, DefaultTemplatesMixin
 
 
-class AbstractWebPage(models.Model):
+class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
     base_template_name = 'wagtail_site/layout/base.html'
 
