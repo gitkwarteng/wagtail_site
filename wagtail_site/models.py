@@ -27,6 +27,8 @@ from .mixins import PageEmailForm
 
 class AbstractWebPage(models.Model):
 
+    base_template_name = 'wagtail_site/layout/base.html'
+
     intro = RichTextField(blank=True, null=True)
     banner = models.ForeignKey('wagtail_site.WebPageBanner', null=True, blank=True, verbose_name="Banner", on_delete=models.SET_NULL,
                                related_name='+')
@@ -47,6 +49,15 @@ class AbstractWebPage(models.Model):
     @cached_property
     def current_site(self):
         return self.get_site()
+
+    def get_base_template(self, *args, **kwargs):
+        return self.base_template_name
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context['wagtail_site_base'] = self.get_base_template()
+
+        return context
 
 
 class AbstractFormWebPage(PageEmailForm, AbstractWebPage):
