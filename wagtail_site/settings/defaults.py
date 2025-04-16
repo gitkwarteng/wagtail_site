@@ -28,3 +28,5 @@ WAGTAIL_SITE_TEMPLATES = {
     'footer_template':'wagtail_site/layout/includes/footer.html'
 
 }
+
+WAGTAIL_SITE_ROOT_PAGE = 'wagtail_site.HomePage'

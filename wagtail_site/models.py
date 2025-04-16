@@ -81,10 +81,6 @@ class AbstractFormWebPage(PageEmailForm, AbstractWebPage):
         abstract = True
 
 
-class HomePage(AbstractWebPage):
-    pass
-
-
 class WebPageBanner(models.Model):
 
     image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
