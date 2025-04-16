@@ -14,7 +14,7 @@
     <meta name="topic" content="{{ meta_topic }}">
     <meta name="keywords" content="{{ page.search_description.split|join:","|striptags }}">
 
-    {% image settings.common.SiteSettings.logo width-400 as logo %}
+    {% image settings.wagtail_site.SiteSettings.logo width-400 as logo %}
 
     <meta property="og:title" content="{% include 'web/layout/includes/title.html' %}{% include 'web/layout/includes/site-name.html' %}">
     <meta property="og:description" content="{{ page.search_description|striptags }}">
