@@ -1,5 +1,6 @@
-
+<div class="col-12 justify-content-{% if value.position == 'ctr' %}center{% else %}start{% endif %}">
 <{{ value.size }} class="p-4 {% if value.position == 'ctr' %}text-center{% endif %}">
     {% if value.icon %}<i class="fa fa-{{ value.icon }} px-2"></i>{% endif %}
     {{ value.title|striptags }}
 </{{ heading.size }}>
+</div>
