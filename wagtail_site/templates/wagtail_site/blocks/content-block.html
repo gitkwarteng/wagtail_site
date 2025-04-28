@@ -1,8 +1,8 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 
-<div class="row{% if value.image %} align-items-center{% endif %}">
+<div class="row{% if value.image.image %} align-items-center{% endif %}">
 
-    {% if not value.image %}
+    {% if not value.image.image %}
         {% if value.heading %}
             {% include_block value.heading %}
         {% endif %}
