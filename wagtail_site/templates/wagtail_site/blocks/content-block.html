@@ -7,6 +7,13 @@
             {% include_block value.heading %}
         {% endif %}
         <div class="col-12">{{ value.content|safe }}</div>
+    {% elif not value.content %}
+        {% if value.heading %}
+            {% include_block value.heading %}
+        {% endif %}
+        <div class="col text-center">
+            {% image value.image.image width-600 %}
+        </div>
     {% else %}
         <!-- Text block -->
         <div class="col col-6{% if value.direction == 'rtl' %} order-md-2{% endif %} ">
