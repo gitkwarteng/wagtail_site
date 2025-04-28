@@ -2,7 +2,7 @@
 
 <div class="row">
     {% if value.heading %}
-    	<div class="col-md-9 justify-content-{% if value.heading.position == 'ctr' %}center{% else %}start{% endif %}">
+    	<div class="col-12 justify-content-{% if value.heading.position == 'ctr' %}center{% else %}start{% endif %}">
             {% include_block value.heading %}
         </div>
     {% endif %}
