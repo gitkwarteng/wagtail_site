@@ -14,7 +14,7 @@ class CarousalStreamBlock(blocks.StreamBlock):
 class WebPageHeadingBlock(blocks.StructBlock):
     title = blocks.CharBlock(classname="title")
     subtitle = blocks.CharBlock(required=False)
-
+    icon = blocks.TextBlock(required=False)
     size = blocks.ChoiceBlock(
         choices=HeadingSizeChoices.choices
     )
@@ -38,7 +38,6 @@ class CaptionedImageBlock(blocks.StructBlock):
 
 
 class WebPageContentStreamBlock(blocks.StructBlock):
-    icon = blocks.TextBlock(required=False)
     heading = WebPageHeadingBlock(required=False)
     content = blocks.RichTextBlock(required=False)
     image = CaptionedImageBlock(required=False)

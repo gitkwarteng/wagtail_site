@@ -1,4 +1,5 @@
 
 <{{ value.size }} class="p-4 {% if value.position == 'ctr' %}text-center{% endif %}">
-{{ value.title|striptags }}
+    {% if value.icon %}<i class="fa fa-{{ value.icon }} px-2"></i>{% endif %}
+    {{ value.title|striptags }}
 </{{ heading.size }}>

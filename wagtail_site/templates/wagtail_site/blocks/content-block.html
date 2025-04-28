@@ -2,14 +2,8 @@
 
 <div class="row">
     {% if value.heading %}
-    	<div class="col-12">
-            <div class="hstack gap-3">
-                {% if value.icon %}
-                	<i class="fa fa-{{ value.icon }} px-1"></i>
-                {% endif %}
-
-                {% include_block value.heading %}
-            </div>
+    	<div class="col-md-9 justify-content-{% if value.heading.position == 'ctr' %}center{% else %}start{% endif %}">
+            {% include_block value.heading %}
         </div>
     {% endif %}
 
