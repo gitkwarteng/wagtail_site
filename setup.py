@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='wagtail_site',
-    version='0.1.17',
+    version='0.1.18',
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
