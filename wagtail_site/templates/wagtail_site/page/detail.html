@@ -13,9 +13,11 @@
         <div class="container">
             <div class="row">
 
-                {% include 'wagtail_site/includes/page-banner.html' %}
+                {% include 'wagtail_site/page/page-banner.html' %}
 
-                {% include 'wagtail_site/page/body-content.html' with content=page.body %}
+                <div class="col-12">
+                    {% include 'wagtail_site/page/body-content.html' with content=page.body %}
+                </div>
 
                 <!-- Tpm Get In touch start -->
                     {% if form.fields %}

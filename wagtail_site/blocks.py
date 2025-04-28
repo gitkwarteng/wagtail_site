@@ -2,7 +2,7 @@ from wagtail import blocks
 from wagtail.embeds.blocks import EmbedBlock
 from wagtail.images.blocks import ImageBlock
 
-from .choices import ContentAlignmentChoices, HeadingSizeChoices
+from .choices import ContentAlignmentChoices, HeadingSizeChoices, ContentDirectionChoices
 
 
 class CarousalStreamBlock(blocks.StreamBlock):
@@ -20,12 +20,12 @@ class WebPageHeadingBlock(blocks.StructBlock):
     )
     position = blocks.ChoiceBlock(
         choices=ContentAlignmentChoices.choices,
-        default=ContentAlignmentChoices.BOTTOM_LEFT
+        default=ContentAlignmentChoices.LEFT
     )
 
     class Meta:
         icon = "title"
-        # template = "base/blocks/heading_block.html"
+        template = "blocks/heading-block.html"
 
 class CaptionedImageBlock(blocks.StructBlock):
     image = ImageBlock(required=False)
@@ -34,7 +34,7 @@ class CaptionedImageBlock(blocks.StructBlock):
 
     class Meta:
         icon = "image"
-        # template = "base/blocks/captioned_image_block.html"
+        template = "blocks/captioned-image-block.html"
 
 
 class WebPageContentStreamBlock(blocks.StructBlock):
@@ -42,4 +42,12 @@ class WebPageContentStreamBlock(blocks.StructBlock):
     heading = WebPageHeadingBlock(required=False)
     content = blocks.RichTextBlock(required=False)
     image = CaptionedImageBlock(required=False)
-    alignment = blocks.ChoiceBlock(choices=ContentAlignmentChoices.choices, default=ContentAlignmentChoices.LEFT)
+    direction = blocks.ChoiceBlock(
+        choices=ContentDirectionChoices.choices, default=ContentDirectionChoices.LEFT_TO_RIGHT,
+        help_text="Direction of the content. Left to right means text is displayed on the left and image on the right."
+    )
+
+    class Meta:
+        icon = "image"
+        template = "blocks/content-block.html"
+

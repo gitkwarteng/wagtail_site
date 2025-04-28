@@ -1,0 +1,9 @@
+{% load wagtailimages_tags %}
+
+{% if page.banner %}
+    <div class="col-lg-12">
+        <div class="project-details-thumnail-wrap">
+            {% image page.banner.image width-1290 %}
+        </div>
+    </div>
+{% endif %}

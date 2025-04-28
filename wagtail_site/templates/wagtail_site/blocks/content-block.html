@@ -1,0 +1,22 @@
+{% load wagtailcore_tags wagtailimages_tags %}
+
+<div class="row">
+    {% if value.heading %}
+    	<div class="col-12">
+            <div class="hstack gap-3">
+                {% if value.icon %}
+                	<i class="fa fa-{{ value.icon }} px-1"></i>
+                {% endif %}
+
+                {% include_block value.heading %}
+            </div>
+        </div>
+    {% endif %}
+
+    {% if not value.image %}
+        {{ value.content|safe }}
+    {% else %}
+        {% include 'wagtail_site/blocks/content-block-text.html' with value=value %}
+    {% endif %}
+
+</div>

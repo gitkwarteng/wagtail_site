@@ -1,0 +1,11 @@
+{% load wagtailimages_tags %}
+
+<div>
+    {% image value.image width-1290 %}
+
+    {% if value.caption %}
+        <span class="{% if value.position == 'center' %}text-center{% endif %}">
+            {{ value.caption }}
+        </span>
+    {% endif %}
+</div>
