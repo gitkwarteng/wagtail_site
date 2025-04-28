@@ -37,6 +37,8 @@ local_settings.py
 db.sqlite3
 media/
 static/
+main
+manage.py
 
 # PyCharm / VS Code / other editors
 .idea/

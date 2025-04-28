@@ -25,7 +25,7 @@ class WebPageHeadingBlock(blocks.StructBlock):
 
     class Meta:
         icon = "title"
-        template = "blocks/heading-block.html"
+        template = "wagtail_site/blocks/heading-block.html"
 
 class CaptionedImageBlock(blocks.StructBlock):
     image = ImageBlock(required=False)
@@ -34,7 +34,7 @@ class CaptionedImageBlock(blocks.StructBlock):
 
     class Meta:
         icon = "image"
-        template = "blocks/captioned-image-block.html"
+        template = "wagtail_site/blocks/captioned-image-block.html"
 
 
 class WebPageContentStreamBlock(blocks.StructBlock):
@@ -49,5 +49,5 @@ class WebPageContentStreamBlock(blocks.StructBlock):
 
     class Meta:
         icon = "image"
-        template = "blocks/content-block.html"
+        template = "wagtail_site/blocks/content-block.html"
 
