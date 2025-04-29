@@ -1,0 +1,61 @@
+{% load widget_tweaks wagtailcore_tags navigation_tags %}
+
+{% get_site_root as site_root %}
+
+{% if form.fields %}
+    <div class="contact-inner">
+    <div class="contact-form">
+        <div id="form-messages" class="error"></div>
+        <form class="tmp-dynamic-form" id="contact-form" method="POST" action="{% pageurl page %}">
+            <div class="contact-form-wrapper row">
+                {% csrf_token %}
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        {% render_field form.name Placeholder=form.name.label %}
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {% render_field form.phone_number Placeholder=form.phone_number.label %}
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {% render_field form.email Placeholder=form.email.label %}
+                    </div>
+                </div>
+
+                {% if form.subject %}
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            {% render_field form.subject Placeholder=form.subject.label %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="col-lg-12">
+                    <div class="form-group">
+                        {% render_field form.message Placeholder=form.message.label %}
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="tmp-button-here">
+                        <button class="tmp-btn hover-icon-reverse radius-round w-100" name="submit" type="submit" id="submit">
+                            <span class="icon-reverse-wrapper">
+                                <span class="btn-text">Send Message</span>
+                            <span class="btn-icon">
+                                <i class="fa-sharp fa-regular fa-arrow-right"></i></span>
+                            <span class="btn-icon">
+                                <i class="fa-sharp fa-regular fa-arrow-right"></i></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
