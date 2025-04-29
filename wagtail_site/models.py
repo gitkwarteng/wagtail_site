@@ -100,7 +100,7 @@ class WebPageBanner(models.Model):
     ]
 
     def __str__(self):
-        return f'{self.image.title} - {self.heading}'
+        return f'{self.heading or ""} {self.image.title}'
 
 
 
