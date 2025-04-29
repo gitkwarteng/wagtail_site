@@ -29,8 +29,13 @@ class WebPageBannerViewSet(SnippetViewSet):
 
     add_to_admin_menu = True
     inspect_view_enabled = True
-    list_display = ['image', 'caption', 'caption_size', 'caption_position']
-    list_filter = ['caption']
+    list_display = [
+        'image',
+        'heading',
+        'size',
+        'position'
+    ]
+    list_filter = ['heading']
 
 
 class PageFormFieldViewSet(SnippetViewSet):

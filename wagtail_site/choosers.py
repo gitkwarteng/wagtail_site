@@ -10,13 +10,20 @@ class PageBannerChooserViewSet(ChooserViewSet):
     choose_one_text = "Choose a banner"
     choose_another_text = "Choose another banner"
     edit_item_text = "Edit this banner"
-    form_fields = ["image", "caption", 'caption_size', 'caption_position']  # fields to show in the "Create" tab
+    form_fields = [
+        'heading',
+        'size',
+        'position',
+        'image',
+        'content'
+    ]  # fields to show in the "Create" tab
 
     panels = [
-        FieldPanel("image"),
-        FieldPanel("caption"),
-        FieldPanel("caption_size"),
-        FieldPanel("caption_position"),
+        'heading',
+        'size',
+        'position',
+        'image',
+        'content'
     ]
 
 banner_chooser_viewset = PageBannerChooserViewSet("banner_chooser")
@@ -33,12 +40,12 @@ class FormFieldChooserViewSet(ChooserViewSet):
     form_fields = ['label', 'field_type', 'required', 'choices', 'default_value', 'help_text']
 
     panels = [
-        FieldPanel("label"),
-        FieldPanel("field_type"),
-        FieldPanel("required"),
-        FieldPanel("choices"),
-        FieldPanel("default_value"),
-        FieldPanel("help_text"),
+        "label",
+        "field_type",
+        "required",
+        "choices",
+        "default_value",
+        "help_text",
     ]
 
 form_field_chooser_viewset = FormFieldChooserViewSet("field_chooser")

@@ -1,4 +1,5 @@
 import os
+from functools import cached_property
 
 from django.http import JsonResponse
 from django.conf import settings
@@ -9,7 +10,8 @@ from wagtail.contrib.forms.models import FormSubmission
 from wagtail.contrib.forms.views import SubmissionsListView
 
 from .operations import get_form_fields_for_page
-from .settings.defaults import WAGTAIL_SITE_TEMPLATES
+from .settings.defaults import WAGTAIL_SITE_STYLE_TEMPLATE, WAGTAIL_SITE_SCRIPT_TEMPLATE, \
+    WAGTAIL_SITE_HEADER_TEMPLATE, WAGTAIL_SITE_FOOTER_TEMPLATE, WAGTAIL_SITE_PAGE_TEMPLATE
 from .utils import accepts_html
 from .views import FormSubmissionsListView
 
@@ -179,4 +181,38 @@ class DefaultTemplatesMixin:
         return context
 
     def get_templates(self):
-        return getattr(settings, "WAGTAIL_SITE_TEMPLATES", WAGTAIL_SITE_TEMPLATES)
+        return {
+            'style_template': self.style_template,
+            'script_template':self.script_template,
+            'header_template':self.header_template,
+            'footer_template':self.footer_template,
+            'page_template':self.page_template
+        }
+
+    @cached_property
+    def style_template(self):
+        return self.get_template_from_settings(
+            template_name="WAGTAIL_SITE_STYLE_TEMPLATE", default=WAGTAIL_SITE_STYLE_TEMPLATE)
+
+    @cached_property
+    def script_template(self):
+        return self.get_template_from_settings(
+            template_name="WAGTAIL_SITE_SCRIPT_TEMPLATE", default=WAGTAIL_SITE_SCRIPT_TEMPLATE)
+
+    @cached_property
+    def header_template(self):
+        return self.get_template_from_settings(
+            template_name="WAGTAIL_SITE_HEADER_TEMPLATE", default=WAGTAIL_SITE_HEADER_TEMPLATE)
+
+    @cached_property
+    def footer_template(self):
+        return self.get_template_from_settings(
+            template_name="WAGTAIL_SITE_FOOTER_TEMPLATE", default=WAGTAIL_SITE_FOOTER_TEMPLATE)
+
+    @cached_property
+    def page_template(self):
+        return self.get_template_from_settings(
+            template_name="WAGTAIL_SITE_PAGE_TEMPLATE", default=WAGTAIL_SITE_PAGE_TEMPLATE)
+
+    def get_template_from_settings(self, template_name, default):
+        return getattr(settings, template_name, default)

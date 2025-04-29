@@ -29,8 +29,6 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
     base_template_name = 'wagtail_site/layout/base.html'
 
-    intro = RichTextField(blank=True, null=True, verbose_name="Description")
-    heading = models.CharField(max_length=255, blank=True, null=True)
     banner = models.ForeignKey('wagtail_site.WebPageBanner', null=True, blank=True, verbose_name="Banner", on_delete=models.SET_NULL,
                                related_name='+')
     body = StreamField(
@@ -39,8 +37,6 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
     )
 
     content_panels = Page.content_panels + [
-        'heading',
-        'intro',
         'banner',
         'body'
     ]
@@ -86,28 +82,35 @@ class AbstractFormWebPage(PageEmailForm, AbstractWebPage):
 class WebPageBanner(models.Model):
 
     image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
-    caption = models.CharField(max_length=250, blank=True, null=True)
-    caption_size = models.CharField(max_length=5, blank=True, null=True,
+    heading = models.CharField(max_length=250, blank=True, null=True)
+    content = RichTextField(blank=True, null=True, verbose_name="Description")
+    size = models.CharField(max_length=5, blank=True, null=True,
                                     choices=HeadingSizeChoices.choices,
                                     default=HeadingSizeChoices.H1, verbose_name="Size")
-    caption_position = models.CharField(max_length=5, blank=True, null=True,
+    position = models.CharField(max_length=5, blank=True, null=True,
                                         choices=ContentAlignmentChoices.choices,
                                         default=ContentAlignmentChoices.BOTTOM_LEFT, verbose_name="Position")
 
     panels = [
-        FieldPanel('image'),
-        FieldPanel('caption'),
-        FieldPanel('caption_size'),
-        FieldPanel('caption_position'),
+        'heading',
+        'size',
+        'position',
+        'image',
+        'content'
     ]
 
     def __str__(self):
-        return f'{self.image.title} - {self.caption}'
+        return f'{self.image.title} - {self.heading}'
 
 
 
 class WebPage(AbstractWebPage, Page):
-    template = 'wagtail_site/page/index.html'
+
+    def get_template(self, request, *args, **kwargs):
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return self.ajax_template or self.page_template
+        else:
+            return self.page_template
 
 
 
