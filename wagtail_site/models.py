@@ -1,6 +1,7 @@
 from functools import cached_property
 
 from django.db import models
+from django.utils.functional import LazyObject
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
@@ -23,13 +24,14 @@ from wagtail.models import Page
 from .blocks import WebPageContentStreamBlock
 from .choices import HeadingSizeChoices, ContentAlignmentChoices
 from .mixins import PageEmailForm, DefaultTemplatesMixin
+from .utils import get_template_for_web_page
 
 
 class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
     base_template_name = 'wagtail_site/layout/base.html'
 
-    template = None
+    template = get_template_for_web_page()
 
     banner = models.ForeignKey('wagtail_site.WebPageBanner', null=True, blank=True, verbose_name="Banner", on_delete=models.SET_NULL,
                                related_name='+')

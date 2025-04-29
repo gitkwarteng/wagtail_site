@@ -1,10 +1,13 @@
 from functools import lru_cache
 
 from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
 
 from wagtail import hooks
 from wagtail.models import get_page_models
 from wagtail.permissions import page_permission_policy
+
+from wagtail_site.settings.defaults import WAGTAIL_SITE_PAGE_TEMPLATE
 
 
 def accepts_html(request):
@@ -48,3 +51,7 @@ def get_form_pages_for_user(user):
         editable_forms = fn(user, editable_forms)
 
     return editable_forms
+
+
+def get_template_for_web_page():
+    return getattr(settings, "WAGTAIL_SITE_PAGE_TEMPLATE", WAGTAIL_SITE_PAGE_TEMPLATE)
