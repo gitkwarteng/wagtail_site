@@ -10,6 +10,6 @@
 
 <a href="{% pageurl site_root %}">
     {% with settings.wagtail_site.SiteSettings as settings %}
-        {% image settings.logo logo_size|width-100 class=logo_class|default:'' %}
+        {% image settings.logo logo_size class=logo_class|default:'' %}
     {% endwith %}
 </a>
