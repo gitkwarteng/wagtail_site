@@ -13,13 +13,18 @@
         <div class="container">
             <div class="row">
 
-                {% include 'wagtail_site/page/page-banner.html' %}
+                {% block page_banner_block %}
+                    {% include 'wagtail_site/page/banner.html' %}
+                {% endblock %}
 
-                <div class="col-12">
-                    {% include 'wagtail_site/page/body-content.html' with content=page.body %}
-                </div>
+                {% block page_body_block %}
+                    <div class="col-12">
+                        {% include 'wagtail_site/page/body.html' %}
+                    </div>
+                {% endblock %}
 
-                <!-- Tpm Get In touch start -->
+                {% block page_form_block %}
+                    <!-- Tpm Get In touch start -->
                     {% if form.fields %}
                         <section class="get-in-touch-area pt--80">
                             <div class="container p-0">
@@ -27,7 +32,7 @@
                                     <div class="get-in-touch-wrapper tmponhover">
                                         <div class="row g-5 align-items-center">
                                             <div class="col-lg-12">
-                                                {% include 'wagtail_site/page/contact-form.html' %}
+                                                {% include 'wagtail_site/page/form.html' %}
                                             </div>
                                         </div>
                                     </div>
@@ -36,6 +41,7 @@
                         </section>
                     {% endif %}
                     <!-- Tpm Get In touch End -->
+                {% endblock %}
 
             </div>
         </div>

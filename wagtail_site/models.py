@@ -29,7 +29,8 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
     base_template_name = 'wagtail_site/layout/base.html'
 
-    intro = RichTextField(blank=True, null=True)
+    intro = RichTextField(blank=True, null=True, verbose_name="Description")
+    heading = models.CharField(max_length=255, blank=True, null=True)
     banner = models.ForeignKey('wagtail_site.WebPageBanner', null=True, blank=True, verbose_name="Banner", on_delete=models.SET_NULL,
                                related_name='+')
     body = StreamField(
@@ -38,9 +39,10 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
     )
 
     content_panels = Page.content_panels + [
-        FieldPanel('intro'),
-        FieldPanel('banner'),
-        FieldPanel('body')
+        'heading',
+        'intro',
+        'banner',
+        'body'
     ]
 
     class Meta:
@@ -101,6 +103,12 @@ class WebPageBanner(models.Model):
 
     def __str__(self):
         return f'{self.image.title} - {self.caption}'
+
+
+
+class WebPage(AbstractWebPage, Page):
+    template = 'wagtail_site/page/index.html'
+
 
 
 class FormField(AbstractFormField):
