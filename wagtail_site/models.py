@@ -162,6 +162,7 @@ class SiteSettings(BaseGenericSetting):
     footer_text = RichTextField()
     logo = models.ForeignKey('wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     logo_landscape = models.ForeignKey('wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+    footer_logo = models.ForeignKey('wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     linkedin = models.URLField(verbose_name="LinkedIn URL", blank=True)
     github = models.URLField(verbose_name="GitHub URL", blank=True)
     discord = models.URLField(verbose_name="Discord URL", blank=True)
@@ -175,11 +176,13 @@ class SiteSettings(BaseGenericSetting):
     select_related = [
         'logo',
         'logo_landscape',
+        'footer_logo',
     ]
 
     panels = [
         FieldPanel('logo'),
         FieldPanel('logo_landscape'),
+        FieldPanel('footer_logo'),
         FieldPanel('footer_text'),
 
         MultiFieldPanel(

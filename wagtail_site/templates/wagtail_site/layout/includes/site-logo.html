@@ -1,4 +1,8 @@
-{# :param logo_class #}
+{#
+:param logo_class
+:param logo_size
+
+#}
 
 {% load wagtailcore_tags wagtailimages_tags navigation_tags %}
 
@@ -6,6 +10,6 @@
 
 <a href="{% pageurl site_root %}">
     {% with settings.wagtail_site.SiteSettings as settings %}
-        {% image settings.logo width-30 class=logo_class|default:'' %}
+        {% image settings.logo logo_size|width-30 class=logo_class|default:'' %}
     {% endwith %}
 </a>
