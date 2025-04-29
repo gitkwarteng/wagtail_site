@@ -163,11 +163,14 @@ class SiteSettings(BaseGenericSetting):
     logo = models.ForeignKey('wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     logo_landscape = models.ForeignKey('wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
     footer_logo = models.ForeignKey('wagtailimages.Image', blank=True, null=True, on_delete=models.SET_NULL, related_name='+')
+
     linkedin = models.URLField(verbose_name="LinkedIn URL", blank=True)
     github = models.URLField(verbose_name="GitHub URL", blank=True)
     discord = models.URLField(verbose_name="Discord URL", blank=True)
     twitter = models.URLField(verbose_name="Twitter URL", blank=True)
     facebook = models.URLField(verbose_name="Facebook URL", blank=True)
+    instagram = models.URLField(verbose_name="Instagram URL", blank=True)
+    youtube = models.URLField(verbose_name="Youtube URL", blank=True)
 
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(blank=True, null=True, max_length=100)
@@ -192,6 +195,8 @@ class SiteSettings(BaseGenericSetting):
                 FieldPanel("twitter"),
                 FieldPanel("discord"),
                 FieldPanel("facebook"),
+                FieldPanel("instagram"),
+                FieldPanel("youtube"),
             ],
             "Social settings",
         ),
