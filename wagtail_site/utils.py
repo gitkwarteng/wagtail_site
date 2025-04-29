@@ -30,7 +30,7 @@ def page_has_fields(page_model)->bool:
 
 @lru_cache(maxsize=None)
 def get_form_types():
-    from mixins import PageFormMixin
+    from wagtail_site.mixins import PageFormMixin
 
     form_models = [model for model in get_page_models() if issubclass(model, PageFormMixin)]
 
