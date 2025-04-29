@@ -29,7 +29,7 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
     base_template_name = 'wagtail_site/layout/base.html'
 
-    page_template = None
+    template = None
 
     banner = models.ForeignKey('wagtail_site.WebPageBanner', null=True, blank=True, verbose_name="Banner", on_delete=models.SET_NULL,
                                related_name='+')
@@ -61,9 +61,9 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
     def get_template(self, request, *args, **kwargs):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            return self.ajax_template or self.page_template or self.page_template
+            return self.ajax_template or self.template or self.page_template
         else:
-            return self.page_template or self.page_template
+            return self.template or self.page_template
 
 
 
