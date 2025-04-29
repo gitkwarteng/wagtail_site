@@ -3,7 +3,7 @@
 def get_form_fields_for_page(page):
     """Get the form fields for a form."""
 
-    from models import FormField
+    from wagtail_site.models import FormField
 
     if not page.form:
         return FormField.objects.none()

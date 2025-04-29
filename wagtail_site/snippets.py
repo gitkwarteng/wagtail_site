@@ -30,8 +30,8 @@ class WebPageBannerViewSet(SnippetViewSet):
     add_to_admin_menu = True
     inspect_view_enabled = True
     list_display = [
-        'image',
         'heading',
+        'image',
         'size',
         'position'
     ]
