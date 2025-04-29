@@ -57,6 +57,13 @@ class AbstractWebPage(DefaultTemplatesMixin, models.Model):
 
         return context
 
+    def get_template(self, request, *args, **kwargs):
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return self.ajax_template or self.template or self.page_template
+        else:
+            return self.template or self.page_template
+
+
 
 class AbstractFormWebPage(PageEmailForm, AbstractWebPage):
 
@@ -105,13 +112,7 @@ class WebPageBanner(models.Model):
 
 
 class WebPage(AbstractWebPage, Page):
-
-    def get_template(self, request, *args, **kwargs):
-        if request.headers.get("x-requested-with") == "XMLHttpRequest":
-            return self.ajax_template or self.page_template
-        else:
-            return self.page_template
-
+    pass
 
 
 class FormField(AbstractFormField):

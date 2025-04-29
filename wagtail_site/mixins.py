@@ -25,7 +25,7 @@ class PageFormMixin:
 
     submissions_list_view_class = FormSubmissionsListView
 
-    landing_page_template = 'web/page/form_landing.html'
+    landing_page_template = 'wagtail_site/page/form_landing.html'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
