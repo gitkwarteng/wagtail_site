@@ -70,7 +70,7 @@ class FormSubmissionViewSet(ViewSet):
 
 class FormViewSetGroup(SnippetViewSetGroup):
     items = [PageFormFieldViewSet, PageFormViewSet, FormSubmissionViewSet]
-    icon = 'form'
+    menu_icon = 'form'
     menu_label = 'Forms'
 
     menu_order = 400
