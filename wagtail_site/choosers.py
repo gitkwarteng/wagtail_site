@@ -11,6 +11,7 @@ class PageBannerChooserViewSet(ChooserViewSet):
     choose_another_text = "Choose another banner"
     edit_item_text = "Edit this banner"
     form_fields = [
+        'name',
         'heading',
         'size',
         'position',
@@ -19,6 +20,7 @@ class PageBannerChooserViewSet(ChooserViewSet):
     ]  # fields to show in the "Create" tab
 
     panels = [
+        'name',
         'heading',
         'size',
         'position',

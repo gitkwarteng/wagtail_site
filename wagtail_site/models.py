@@ -92,6 +92,7 @@ class AbstractFormWebPage(PageEmailForm, AbstractWebPage):
 
 class WebPageBanner(models.Model):
 
+    name = models.CharField(max_length=250, blank=True, null=True)
     image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
     heading = models.CharField(max_length=250, blank=True, null=True)
     content = RichTextField(blank=True, null=True, verbose_name="Description")
@@ -103,6 +104,7 @@ class WebPageBanner(models.Model):
                                         default=ContentAlignmentChoices.BOTTOM_LEFT, verbose_name="Position")
 
     panels = [
+        'name',
         'heading',
         'size',
         'position',
@@ -111,7 +113,7 @@ class WebPageBanner(models.Model):
     ]
 
     def __str__(self):
-        return f'{self.heading or ""} {self.image.title}'
+        return f'{self.name or ""} {self.image.title}'
 
 
 
