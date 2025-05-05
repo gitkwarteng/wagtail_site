@@ -117,8 +117,62 @@ class WebPageBanner(models.Model):
 
 
 
+class TeamMember(Orderable):
+
+    name = models.CharField("Name", max_length=50)
+    image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
+    profile = RichTextField("Profile", blank=True, null=True)
+
+    link = models.URLField("URL", max_length=255, blank=True, null=True)
+
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        managed = True
+        verbose_name = 'Team Member'
+        verbose_name_plural = 'Team Members'
+
+    @property
+    def image_url(self):
+        return self.image.url if self.image else ''
+
+
+class Review(Orderable):
+
+    name = models.CharField("Name", max_length=50)
+    image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
+    content = RichTextField("Content", blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        managed = True
+        verbose_name = 'Review'
+        verbose_name_plural = 'Reviews'
+
+
+
 class WebPage(AbstractWebPage, Page):
-    pass
+
+    content_panels = Page.content_panels + [
+        'banner',
+        'team_members',
+        'page_reviews',
+        'body'
+    ]
+
+
+class WebPageTeamMember(Orderable):
+    page = ParentalKey(WebPage, related_name='team_members')
+    team_member = models.ForeignKey('wagtail_site.TeamMember', related_name='+', on_delete=models.CASCADE)
+
+
+class WebPageReview(Orderable):
+    page = ParentalKey(WebPage, related_name='page_reviews')
+    review = models.ForeignKey('wagtail_site.Review', related_name='+', on_delete=models.CASCADE)
 
 
 class FormField(AbstractFormField):
@@ -193,6 +247,7 @@ class SiteSettings(BaseGenericSetting):
     email = models.EmailField(blank=True, null=True)
     phone = models.CharField(blank=True, null=True, max_length=100)
     address = RichTextField(blank=True, null=True, max_length=250)
+    map = models.CharField(blank=True, null=True, max_length=250, verbose_name="Google Maps Address")
 
     select_related = [
         'logo',
@@ -201,29 +256,30 @@ class SiteSettings(BaseGenericSetting):
     ]
 
     panels = [
-        FieldPanel('logo'),
-        FieldPanel('logo_landscape'),
-        FieldPanel('footer_logo'),
-        FieldPanel('footer_text'),
+        'logo',
+        'logo_landscape',
+        'footer_logo',
+        'footer_text',
 
         MultiFieldPanel(
             [
-                FieldPanel("linkedin"),
-                FieldPanel("github"),
-                FieldPanel("twitter"),
-                FieldPanel("discord"),
-                FieldPanel("facebook"),
-                FieldPanel("instagram"),
-                FieldPanel("youtube"),
+                "linkedin",
+                "github",
+                "twitter",
+                "discord",
+                "facebook",
+                "instagram",
+                "youtube",
             ],
             "Social settings",
         ),
 
         MultiFieldPanel(
             [
-                FieldPanel("phone"),
-                FieldPanel("email"),
-                FieldPanel("address")
+                "phone",
+                "email",
+                "address",
+                "map"
             ],
             "Contact settings",
         )

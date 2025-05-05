@@ -68,3 +68,37 @@ class FormChooserViewSet(ChooserViewSet):
     ]
 
 page_form_chooser_viewset = FormChooserViewSet("form_chooser")
+
+
+class TeamMemberChooserViewSet(ChooserViewSet):
+
+    model = "wagtail_site.TeamMember"
+
+    icon = "pilcrow"
+    choose_one_text = "Choose a team member"
+    choose_another_text = "Choose another team member"
+    edit_item_text = "Edit this team member"
+    form_fields = ['name', 'image', 'profile']
+
+    panels = [
+        'name', 'image', 'profile'
+    ]
+
+team_member_chooser_viewset = FormChooserViewSet("team_member")
+
+
+class ReviewChooserViewSet(ChooserViewSet):
+
+    model = "wagtail_site.Review"
+
+    icon = "pilcrow"
+    choose_one_text = "Choose a review"
+    choose_another_text = "Choose another review"
+    edit_item_text = "Edit this review"
+    form_fields = ['name', 'image', 'content']
+
+    panels = [
+        'name', 'image', 'content'
+    ]
+
+review_chooser_viewset = FormChooserViewSet("page_review")

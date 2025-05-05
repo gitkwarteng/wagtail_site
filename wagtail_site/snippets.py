@@ -6,7 +6,7 @@ from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from wagtail.admin.viewsets.base import ViewSet
 from wagtail.contrib.forms.urls import urlpatterns as wagtailforms_urlpatterns
 
-from .models import FooterText, WebPageBanner, FormField, PageForm
+from .models import FooterText, WebPageBanner, FormField, PageForm, TeamMember, Review
 from .views import WebPageFormListView
 
 
@@ -76,3 +76,39 @@ class FormViewSetGroup(SnippetViewSetGroup):
     menu_order = 400
 
     add_to_admin_menu = True
+
+
+
+class TeamMemberViewSet(SnippetViewSet):
+    model = TeamMember
+    icon = 'group'
+    menu_label = 'Team'
+
+    menu_order = 400
+
+    add_to_admin_menu = True
+    inspect_view_enabled = True
+    list_display = [
+        'name',
+        'image',
+        'profile',
+    ]
+    list_filter = ['name']
+
+
+class ReviewViewSet(SnippetViewSet):
+    model = Review
+    icon = 'comment'
+    menu_label = 'Reviews'
+
+    menu_order = 400
+
+    add_to_admin_menu = True
+    inspect_view_enabled = True
+    list_display = [
+        'name',
+        'image',
+        'content',
+    ]
+    list_filter = ['name']
+
