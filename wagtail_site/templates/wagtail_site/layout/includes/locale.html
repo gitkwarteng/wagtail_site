@@ -1,0 +1,14 @@
+{# make sure these are at the top of the file #}
+{% load i18n wagtailcore_tags %}
+
+{% if page %}
+    {% for language_code, language_name in LANGUAGES %}
+        {% get_language_info for language_code as lang %}
+
+        {% language language_code %}
+            <li><a href="{% pageurl page.localized %}" rel="alternate" hreflang="{{ language_code }}">
+                {{ lang.name_local }}
+            </a></li>
+        {% endlanguage %}
+    {% endfor %}
+{% endif %}

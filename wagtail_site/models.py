@@ -1,7 +1,6 @@
 from functools import cached_property
 
 from django.db import models
-from django.utils.functional import LazyObject
 from modelcluster.fields import ParentalKey
 from modelcluster.models import ClusterableModel
 from wagtail.admin.panels import (
@@ -17,6 +16,8 @@ from wagtail.contrib.settings.models import (
     BaseGenericSetting,
     register_setting,
 )
+from wagtail.documents import get_document_model
+from wagtail.documents.blocks import DocumentChooserBlock
 from wagtail.fields import RichTextField, StreamField
 from wagtail.models import DraftStateMixin, RevisionMixin, PreviewableMixin, TranslatableMixin, Orderable
 from wagtail.models import Page
@@ -24,24 +25,24 @@ from wagtail.models import Page
 from .blocks import WebPageContentStreamBlock
 from .choices import HeadingSizeChoices, ContentAlignmentChoices
 from .mixins import PageEmailForm, DefaultTemplatesMixin
-from .utils import get_template_for_web_page
 
 
-class AbstractWebPage(DefaultTemplatesMixin, models.Model):
+class AbstractWebPage(DefaultTemplatesMixin, ClusterableModel):
 
     base_template_name = 'wagtail_site/layout/base.html'
 
     web_template = None
 
-    banner = models.ForeignKey('wagtail_site.WebPageBanner', null=True, blank=True, verbose_name="Banner", on_delete=models.SET_NULL,
-                               related_name='+')
+    # banners = ParentalManyToManyField(
+    #     'wagtail_site.WebPageBanner', blank=True, verbose_name="Banners"
+    # )
     body = StreamField(
         [('body', WebPageContentStreamBlock())],
         blank=True
     )
 
     content_panels = Page.content_panels + [
-        'banner',
+        'banners',
         'body'
     ]
 
@@ -74,47 +75,65 @@ class AbstractFormWebPage(PageEmailForm, AbstractWebPage):
     form = models.ForeignKey('wagtail_site.PageForm', null=True, blank=True, verbose_name="Form", on_delete=models.SET_NULL,
                              related_name='+')
 
+    form_panel = MultiFieldPanel([FormSubmissionsPanel(), FieldPanel('form'), ], "Page Form")
+
     content_panels = AbstractWebPage.content_panels + [
-
-        MultiFieldPanel([
-
-            FormSubmissionsPanel(),
-
-            FieldPanel('form'),
-
-        ], "Page Form")
-
+        form_panel
     ]
 
     class Meta:
         abstract = True
 
 
-class WebPageBanner(models.Model):
+class WebPageBanner(Orderable):
 
+    page = ParentalKey("wagtailcore.Page", on_delete=models.CASCADE, related_name='banners', null=True)
     name = models.CharField(max_length=250, blank=True, null=True)
     image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
     heading = models.CharField(max_length=250, blank=True, null=True)
     content = RichTextField(blank=True, null=True, verbose_name="Description")
-    size = models.CharField(max_length=5, blank=True, null=True,
-                                    choices=HeadingSizeChoices.choices,
-                                    default=HeadingSizeChoices.H1, verbose_name="Size")
-    position = models.CharField(max_length=5, blank=True, null=True,
-                                        choices=ContentAlignmentChoices.choices,
-                                        default=ContentAlignmentChoices.BOTTOM_LEFT, verbose_name="Position")
+    size = models.CharField(
+        max_length=5, blank=True, null=True,
+        choices=HeadingSizeChoices.choices,
+        default=HeadingSizeChoices.H1, verbose_name="Size"
+    )
+    position = models.CharField(
+        max_length=5, blank=True, null=True,
+        choices=ContentAlignmentChoices.choices,
+        default=ContentAlignmentChoices.BOTTOM_LEFT, verbose_name="Position"
+    )
+
+    button_label = models.CharField(
+        verbose_name="Button Label", max_length=250, blank=True, null=True)
+    button_link = models.ForeignKey(
+        Page, verbose_name="Button Link", blank=True, null=True, on_delete=models.SET_NULL,
+        related_name='banner_button'
+    )
 
     panels = [
-        'name',
-        'heading',
-        'size',
-        'position',
+        FieldRowPanel(
+            [
+                'name',
+                'heading',
+            ]
+        ),
+
+        FieldRowPanel([
+            'size',
+            'position',
+        ]),
+
+        FieldRowPanel([
+            'button_label',
+            'button_link'
+        ]),
+
+        'content',
         'image',
-        'content'
     ]
 
     def __str__(self):
         return f'{self.name or ""} {self.image.title}'
-
 
 
 class TeamMember(Orderable):
@@ -139,9 +158,10 @@ class TeamMember(Orderable):
         return self.image.url if self.image else ''
 
 
-class Review(Orderable):
+class Review(TranslatableMixin, DraftStateMixin, RevisionMixin, Orderable):
 
-    name = models.CharField("Name", max_length=50)
+    name = models.CharField("Name", max_length=250)
+    role = models.CharField("Role", max_length=250, blank=True, null=True)
     image = models.ForeignKey('wagtailimages.Image', null=True, on_delete=models.SET_NULL)
     content = RichTextField("Content", blank=True, null=True)
 
@@ -152,27 +172,51 @@ class Review(Orderable):
         managed = True
         verbose_name = 'Review'
         verbose_name_plural = 'Reviews'
+        unique_together = ('translation_key', 'locale')
 
 
 
 class WebPage(AbstractWebPage, Page):
 
     content_panels = Page.content_panels + [
-        'banner',
+        'banners',
         'team_members',
         'page_reviews',
         'body'
     ]
 
+    class Meta:
+        verbose_name = "Web Page"
+        verbose_name_plural = "Web Pages"
+
 
 class WebPageTeamMember(Orderable):
-    page = ParentalKey(WebPage, related_name='team_members')
+    page = ParentalKey('wagtail_site.WebPage', related_name='team_members')
     team_member = models.ForeignKey('wagtail_site.TeamMember', related_name='+', on_delete=models.CASCADE)
 
 
 class WebPageReview(Orderable):
-    page = ParentalKey(WebPage, related_name='page_reviews')
+    page = ParentalKey('wagtail_site.WebPage', related_name='page_reviews')
     review = models.ForeignKey('wagtail_site.Review', related_name='+', on_delete=models.CASCADE)
+
+
+class DocumentsPage(AbstractWebPage):
+    documents = StreamField([
+        ('document', DocumentChooserBlock())
+    ],
+        null=True,
+        blank=True,
+        use_json_field=True,
+    )
+
+    content_panels = Page.content_panels + [
+        'banners',
+        'documents',
+        'body',
+    ]
+
+    class Meta:
+        abstract = True
 
 
 class FormField(AbstractFormField):

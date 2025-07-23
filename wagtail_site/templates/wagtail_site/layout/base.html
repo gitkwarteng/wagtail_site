@@ -48,29 +48,36 @@
 
 <body class="{% block body_class %}{% endblock %}">
 
-{% block header %}
-    {% include header_template %}
-{% endblock %}
+{% block body_wrapper %}
+    {% block header %}
+        {% include header_template %}
+    {% endblock %}
 
-{% include 'wagtail_site/layout/includes/seo.html' %}
+    {% block seo_block %}
+        {% include 'wagtail_site/layout/includes/seo.html' %}
+    {% endblock %}
 
-{% block breadcrumbs %}{% endblock %}
+    {% block breadcrumbs %}{% endblock %}
 
-{% block content %}
+    {% block content %}{% endblock %}
 
-{% endblock %}
+    {% block footer %}
+        {% include footer_template %}
+    {% endblock %}
 
-{% block footer %}
-    {% include footer_template %}
 {% endblock %}
 
 <!-- floating whatsapp -->
 
-{% block floating_message_button %}{% include 'wagtail_site/layout/includes/floating-messenger-button.html' %}{% endblock %}
+{% block floating_message_button %}
+    {% include 'wagtail_site/layout/includes/floating-messenger-button.html' %}
+{% endblock %}
 
 <!-- floating whatsapp End -->
 
-{% block scroll_top_button %}{% include 'wagtail_site/layout/includes/floating-scroll-to-top-button.html' %}{% endblock %}
+{% block scroll_top_button %}
+    {% include 'wagtail_site/layout/includes/floating-scroll-to-top-button.html' %}
+{% endblock %}
 
 
 {% block javascript %}
@@ -79,6 +86,6 @@
 
 {% block page_js %} {% endblock %}
 
-
 </body>
+
 </html>

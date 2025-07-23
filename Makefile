@@ -7,3 +7,6 @@ release: clean ## Creates release
 	# rm -rf src/oscar/static/*
 	./setup.py sdist bdist_wheel
 	# twine upload -s dist/*
+
+build:
+	python setup.py sdist bdist_wheel

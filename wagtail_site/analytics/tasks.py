@@ -1,9 +1,8 @@
 import traceback
 from uwsgi_tasks import task, TaskExecutor
 
-from apps.analytics.dataclasses import IPInfo
-from apps.analytics.utils import get_ip_address_info
-from apps.common import log_exception
+from .dataclasses import IPInfo
+from .utils import get_ip_address_info
 
 
 @task(executor=TaskExecutor.SPOOLER)

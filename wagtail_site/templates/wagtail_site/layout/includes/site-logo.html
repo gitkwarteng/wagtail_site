@@ -1,15 +1,9 @@
-<!--
-:param logo_class
-:param logo_size
-
--->
-
 {% load wagtailcore_tags wagtailimages_tags navigation_tags %}
 
 {% get_site_root as site_root %}
 
-<a href="{% pageurl site_root %}">
+<a href="{% pageurl site_root %}" class="{{ link_class }}">
     {% with settings.wagtail_site.SiteSettings as settings %}
-        {% image settings.logo width-100 class=logo_class|default:'' %}
+        {% image settings.logo fill-100x50 class=logo_class|default:'' %}
     {% endwith %}
 </a>

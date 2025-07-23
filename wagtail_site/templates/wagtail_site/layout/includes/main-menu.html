@@ -4,7 +4,7 @@
 
 <ul class="tmp-mainmenu">
     <li>
-        <a href="{% pageurl site_root %}" class="{% include 'web/layout/includes/active-menu-indicator.html' with menu=site_root %}">Home
+        <a href="{% pageurl site_root %}" class="{% include 'wagtail_site/layout/includes/active-menu-indicator.html' with menu=site_root %}">Home
         </a>
     </li>
 
@@ -18,13 +18,13 @@
                     <ul class="submenu">
                         {% for sub_menuitem in sub_menu %}
                             <li><a href="{% pageurl sub_menuitem %}"
-                            class="{% include 'web/layout/includes/active-menu-indicator.html' with menu=sub_menuitem %}" >
+                            class="{% include 'wagtail_site/layout/includes/active-menu-indicator.html' with menu=sub_menuitem %}" >
                                 {{ sub_menuitem.title }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>
             {% else %}
-                <li><a href="{% pageurl menuitem %}" class="{% include 'web/layout/includes/active-menu-indicator.html' with menu=menuitem %}">{{ menuitem.title }}</a></li>
+                <li><a href="{% pageurl menuitem %}" class="{% include 'wagtail_site/layout/includes/active-menu-indicator.html' with menu=menuitem %}">{{ menuitem.title }}</a></li>
             {% endif %}
         {% endwith %}
 

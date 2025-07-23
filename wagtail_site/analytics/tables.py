@@ -1,6 +1,6 @@
 import django_tables2 as tables
 
-from apps.analytics.models import PageVisit
+from .models import PageVisit
 
 
 class PageVisitReportTable(tables.Table):

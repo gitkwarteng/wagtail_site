@@ -1,10 +1,8 @@
-from functools import cached_property
-
 from django.urls import path
 from wagtail.contrib.forms.models import FormSubmission
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from wagtail.admin.viewsets.base import ViewSet
-from wagtail.contrib.forms.urls import urlpatterns as wagtailforms_urlpatterns
+
 
 from .models import FooterText, WebPageBanner, FormField, PageForm, TeamMember, Review
 from .views import WebPageFormListView
@@ -30,7 +28,6 @@ class WebPageBannerViewSet(SnippetViewSet):
     add_to_admin_menu = True
     inspect_view_enabled = True
     list_display = [
-        'name',
         'heading',
         'image',
         'size',

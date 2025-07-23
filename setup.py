@@ -11,7 +11,8 @@ setup(
         'django-modelcluster>=6.4',
         'django-taggit>=6.1.0',
         'wagtail>=6.4.1',
+        'wagtail-localize>=1.12.1',
     ],
     author='Antwi Kwarteng',
-    description='A reusable Django app for creating wagtail site.',
+    description='A reusable Django app for creating wagtail websites.',
 )

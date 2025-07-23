@@ -10,7 +10,7 @@ from wagtail.contrib.forms.models import FormSubmission
 from wagtail.contrib.forms.views import SubmissionsListView
 
 from .operations import get_form_fields_for_page
-from .settings.defaults import WAGTAIL_SITE_STYLE_TEMPLATE, WAGTAIL_SITE_SCRIPT_TEMPLATE, \
+from wagtail_site.settings.defaults import WAGTAIL_SITE_STYLE_TEMPLATE, WAGTAIL_SITE_SCRIPT_TEMPLATE, \
     WAGTAIL_SITE_HEADER_TEMPLATE, WAGTAIL_SITE_FOOTER_TEMPLATE, WAGTAIL_SITE_PAGE_TEMPLATE
 from .utils import accepts_html
 from .views import FormSubmissionsListView

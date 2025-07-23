@@ -23,7 +23,6 @@ class HeadingSizeChoices(models.TextChoices):
     H5 = 'h5', _("Header 5")
 
 
-
 class ContentDirectionChoices(models.TextChoices):
     LEFT_TO_RIGHT = 'ltr', _("Left To Right")
     RIGHT_TO_LEFT = 'rtl', _("Right To Left")
