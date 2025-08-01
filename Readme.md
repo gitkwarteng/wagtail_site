@@ -19,7 +19,7 @@ Add these options to your settings file to customize template
 from pathlib import Path
 from wagtail_site.settings import WagtailSiteSettings
 
-from django_settings import DatabaseConfig, DjangoDatabases
+from django_settings.settings import DatabaseConfig, DjangoDatabases
 
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent

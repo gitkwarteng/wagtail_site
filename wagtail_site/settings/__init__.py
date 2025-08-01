@@ -52,7 +52,7 @@ class WagtailSiteSettings(DjangoSettings):
 
         self.wagtail_content_languages = [
             ('en', "English"),
-        ] + self.wagtail_site_content_languages
+        ] + self.wagtail_content_languages
 
         self.languages = [
             ('en', "English"),
