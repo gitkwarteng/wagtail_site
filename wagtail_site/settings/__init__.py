@@ -1,44 +1,37 @@
 from dataclasses import dataclass, field
-from functools import cached_property
-from typing import List, Optional, Tuple, Dict
+from typing import List, Tuple, Dict, Optional, Any
+
+from django_settings.settings import DjangoSettings
+
+from wagtail_site.settings.conf import WAGTAIL_APPS, WAGTAIL_MIDDLEWARE, WAGTAIL_TEMPLATE_PROCESSORS
 
 
-@dataclass(kw_only=False, frozen=False)
-class WagtailSiteSettings:
+@dataclass(frozen=False, kw_only=False)
+class WagtailSiteSettings(DjangoSettings):
     facebook_app_id: str = ''
     facebook_app_secret: str = ''
     instagram_app_id: str = ''
     instagram_app_secret: str = ''
-    embed_finders: List[Dict[str, str]] = field(default_factory=lambda: [])
-    content_languages: List[Tuple[str, str]] = field(default_factory=lambda: [])
-    style_template: str = 'web/layout/includes/css.html'
-    script_template: str = 'web/layout/includes/js.html'
-    header_template: str = 'web/layout/includes/header.html'
-    footer_template: str = 'web/layout/includes/footer.html'
-    page_template: str = 'web/page/index.html'
-    root_page: str = 'web.HomePage'
-    site_name: str = 'website'
-    admin_base_url: str = 'http://localhost/admin/'
-    enable_localisation: bool = True
-    language_code: str = 'en'
-    doc_extensions: List[str] = field(default_factory=lambda: ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip'])
+    wagtailembeds_finders: List[Dict[str, str]] = field(default_factory=lambda: [])
+    wagtail_content_languages: List[Tuple[str, str]] = field(default_factory=lambda: [])
+    wagtail_site_style_template: str = 'wagtail_site/layout/includes/css.html'
+    wagtail_site_script_template: str = 'wagtail_site/layout/includes/js.html'
+    wagtail_site_header_template: str = 'wagtail_site/layout/includes/header.html'
+    wagtail_site_footer_template: str = 'wagtail_site/layout/includes/footer.html'
+    wagtail_site_page_template: str = 'wagtail_site/page/index.html'
+    wagtail_site_root_page: str = 'web.HomePage'
+    wagtail_site_name: str = 'website'
+    wagtailadmin_base_url: str = 'http://localhost/admin/'
+    wagtail_i18n_enabled: bool = True
+    wagtaildocs_extensions: List[str] = field(default_factory=lambda: ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip'])
+    wagtailsearch_backends: Optional[Dict[str, Any]] = None
 
-    @cached_property
-    def as_dict(self):
+    def __post_init__(self):
+        super().__post_init__()
+
         from wagtail.embeds.oembed_providers import youtube, vimeo, twitter, reddit, pinterest
-        return {
-            'WAGTAIL_SITE_NAME': self.site_name,
-            'WAGTAIL_I18N_ENABLED': self.enable_localisation,
-            'LANGUAGE_CODE': self.language_code,
-            'WAGTAILADMIN_BASE_URL': self.admin_base_url,
-            'WAGTAILDOCS_EXTENSIONS':self.doc_extensions,
-            'WAGTAIL_SITE_STYLE_TEMPLATE': self.style_template,
-            'WAGTAIL_SITE_SCRIPT_TEMPLATE': self.script_template,
-            'WAGTAIL_SITE_HEADER_TEMPLATE': self.header_template,
-            'WAGTAIL_SITE_FOOTER_TEMPLATE': self.footer_template,
-            'WAGTAIL_SITE_PAGE_TEMPLATE': self.page_template,
-            'WAGTAIL_SITE_ROOT_PAGE': self.root_page,
-            'WAGTAILEMBEDS_FINDERS': [
+
+        self.wagtailembeds_finders = [
                 {
                     'class': 'wagtail.embeds.finders.facebook',
                     'app_id': self.facebook_app_id,
@@ -55,11 +48,44 @@ class WagtailSiteSettings:
                     'class': 'wagtail.embeds.finders.oembed',
                     'providers': [youtube, vimeo, twitter, reddit, pinterest],
                 }
-            ] + self.embed_finders,
-            'WAGTAIL_CONTENT_LANGUAGES': [
-                ('en', "English"),
-            ] + self.content_languages,
-            'LANGUAGES': [
-                ('en', "English"),
-            ] + self.content_languages,
-        }
+            ] + self.wagtailembeds_finders
+
+        self.wagtail_content_languages = [
+            ('en', "English"),
+        ] + self.wagtail_site_content_languages
+
+        self.languages = [
+            ('en', "English"),
+        ] + self.languages or self.wagtail_content_languages
+
+        if not self.wagtailsearch_backends:
+            self.wagtailsearch_backends = {
+                "default": {
+                    "BACKEND": "wagtail.search.backends.database",
+                }
+            }
+
+    def register(self):
+        """
+        Register the Django specific settings in the globals registry.
+        """
+        self.add_wagtail_site_settings()
+
+        super().register()
+
+
+    def add_wagtail_site_settings(self):
+        # add wagtail apps
+        for app in WAGTAIL_APPS:
+            if app not in self.installed_apps:
+                self.installed_apps.append(app)
+
+        # add middleware
+        for mw in WAGTAIL_MIDDLEWARE:
+            if mw not in self.middlewares:
+                self.middlewares.append(mw)
+
+        # add template context processors
+        for template in WAGTAIL_TEMPLATE_PROCESSORS:
+            if template not in self.templates[0]["OPTIONS"]["context_processors"]:
+                self.templates[0]["OPTIONS"]["context_processors"].append(template)
