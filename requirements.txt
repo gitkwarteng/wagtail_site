@@ -4,3 +4,5 @@ django-modelcluster>=6.4
 django-taggit>=6.1.0
 wagtail>=6.4.1
 setuptools
+
+-e django-settings @ file:///Users/kwarteng/Developer/django/projects/django-settings-class
