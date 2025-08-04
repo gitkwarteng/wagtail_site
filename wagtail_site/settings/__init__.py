@@ -1,3 +1,4 @@
+import inspect
 from dataclasses import dataclass, field
 from typing import List, Tuple, Dict, Optional, Any
 
@@ -26,6 +27,9 @@ class WagtailSiteSettings(DjangoSettings):
     wagtaildocs_extensions: List[str] = field(default_factory=lambda: ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip'])
     wagtailsearch_backends: Optional[Dict[str, Any]] = None
 
+    use_l10n:bool = True
+    language_code = 'en'
+
     def __post_init__(self):
         super().__post_init__()
 
@@ -52,11 +56,11 @@ class WagtailSiteSettings(DjangoSettings):
 
         self.wagtail_content_languages = [
             ('en', "English"),
-        ] + self.wagtail_content_languages
+        ] + (self.wagtail_content_languages or self.languages or [])
 
         self.languages = [
             ('en', "English"),
-        ] + self.languages or self.wagtail_content_languages
+        ] + (self.languages or [])
 
         if not self.wagtailsearch_backends:
             self.wagtailsearch_backends = {
@@ -71,7 +75,12 @@ class WagtailSiteSettings(DjangoSettings):
         """
         self.add_wagtail_site_settings()
 
-        super().register()
+        caller_frame = inspect.currentframe().f_back
+        module = inspect.getmodule(caller_frame)
+
+        # Inject validated fields as module-level variables
+        for field_name, field_value in self.as_dict.items():
+            setattr(module, field_name, field_value)
 
 
     def add_wagtail_site_settings(self):
@@ -82,8 +91,8 @@ class WagtailSiteSettings(DjangoSettings):
 
         # add middleware
         for mw in WAGTAIL_MIDDLEWARE:
-            if mw not in self.middlewares:
-                self.middlewares.append(mw)
+            if mw not in self.middleware:
+                self.middleware.append(mw)
 
         # add template context processors
         for template in WAGTAIL_TEMPLATE_PROCESSORS:

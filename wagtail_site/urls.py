@@ -25,13 +25,8 @@ if settings.DEBUG:
 
 
 
-# i18urlpatterns = urlpatterns + i18n_patterns(
-#     path("", include(wagtail_urls)),
-#     prefix_default_language=False
-# )
-
 def get_url_patterns(localized=True):
     return urlpatterns + i18n_patterns(
         path("", include(wagtail_urls)),
         prefix_default_language=False
-    ) if localized else urlpatterns
+    ) if localized else urlpatterns + [path("", include(wagtail_urls))]

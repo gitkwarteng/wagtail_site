@@ -11,7 +11,6 @@ WAGTAIL_APPS = [
     "wagtail.search",
     "wagtail.admin",
     "wagtail.contrib.settings",
-    # 'wagtail.locales',
     "wagtail_localize",
     "wagtail_localize.locales",
     "wagtail",
