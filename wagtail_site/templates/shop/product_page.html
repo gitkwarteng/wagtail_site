@@ -1,0 +1,49 @@
+{% extends wagtail_site_base %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<div class="product-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                {% if product.sample_image %}
+                    {% image product.sample_image width-500 as product_image %}
+                    <img src="{{ product_image.url }}" alt="{{ product.product_name }}" class="img-fluid">
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h1>{{ product.product_name }}</h1>
+                <p class="product-code">Product Code: {{ product.code }}</p>
+                <p class="price">Price: {{ product.unit_price }}</p>
+                <p class="quantity">Available: {{ product.quantity }}</p>
+                
+                {% if description %}
+                    <div class="description">
+                        {{ description|richtext }}
+                    </div>
+                {% endif %}
+                
+                <form method="post" action="{% url 'shop:cart-add' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="product_id" value="{{ product.id }}">
+                    <div class="form-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="form-control" style="width: 100px; display: inline-block;">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+        
+        {% if body %}
+            <div class="row mt-4">
+                <div class="col-12">
+                    {% for block in body %}
+                        {% include_block block %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

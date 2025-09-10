@@ -1,0 +1,70 @@
+{% extends wagtail_site_base %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<div class="shop-index-page">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        
+        {% if description %}
+            <div class="description">
+                {{ description|richtext }}
+            </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Categories</h3>
+                <ul class="list-group">
+                    {% for category in categories %}
+                        <li class="list-group-item">
+                            {% if category.page %}
+                                <a href="{{ category.page.get_url }}">{{ category.name }}</a>
+                            {% else %}
+                                {{ category.name }}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            
+            <div class="col-md-9">
+                <h3>All Products</h3>
+                {% if products %}
+                    <div class="products-grid">
+                        <div class="row">
+                            {% for product in products %}
+                                <div class="col-md-4 mb-4">
+                                    <div class="card">
+                                        {% if product.sample_image %}
+                                            {% image product.sample_image width-300 as product_image %}
+                                            <img src="{{ product_image.url }}" alt="{{ product.product_name }}" class="card-img-top">
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ product.product_name }}</h5>
+                                            <p class="card-text">{{ product.unit_price }}</p>
+                                            <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View Product</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    <p>No products available.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        {% if body %}
+            <div class="row mt-4">
+                <div class="col-12">
+                    {% for block in body %}
+                        {% include_block block %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

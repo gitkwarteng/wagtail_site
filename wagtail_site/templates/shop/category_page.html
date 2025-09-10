@@ -1,0 +1,50 @@
+{% extends wagtail_site_base %}
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% block content %}
+<div class="category-page">
+    <div class="container">
+        <h1>{{ category.name }}</h1>
+        
+        {% if description %}
+            <div class="description">
+                {{ description|richtext }}
+            </div>
+        {% endif %}
+        
+        {% if products %}
+            <div class="products-grid">
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                {% if product.sample_image %}
+                                    {% image product.sample_image width-300 as product_image %}
+                                    <img src="{{ product_image.url }}" alt="{{ product.product_name }}" class="card-img-top">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.product_name }}</h5>
+                                    <p class="card-text">{{ product.unit_price }}</p>
+                                    <a href="{{ product.get_absolute_url }}" class="btn btn-primary">View Product</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% else %}
+            <p>No products found in this category.</p>
+        {% endif %}
+        
+        {% if body %}
+            <div class="row mt-4">
+                <div class="col-12">
+                    {% for block in body %}
+                        {% include_block block %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
