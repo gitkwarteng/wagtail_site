@@ -19,15 +19,20 @@ WAGTAIL_APPS = [
 
     'widget_tweaks',
 
+    "post_office",
+
     "wagtail_site",
+
 ]
 
 WAGTAIL_MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
-    'django.middleware.locale.LocaleMiddleware'
+    'django.middleware.locale.LocaleMiddleware',
+    'wagtail_site.shop.middleware.CustomerMiddleware'
 ]
 
 WAGTAIL_TEMPLATE_PROCESSORS = [
     "wagtail.contrib.settings.context_processors.settings",
     'django.template.context_processors.i18n',
+    'wagtail_site.shop.context_processors.customer',
 ]

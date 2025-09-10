@@ -26,6 +26,8 @@ class WagtailSiteSettings(DjangoSettings):
     wagtail_i18n_enabled: bool = True
     wagtaildocs_extensions: List[str] = field(default_factory=lambda: ['csv', 'docx', 'key', 'odt', 'pdf', 'pptx', 'rtf', 'txt', 'xlsx', 'zip'])
     wagtailsearch_backends: Optional[Dict[str, Any]] = None
+    email_backend: str = 'post_office.EmailBackend'
+    shop_app_label: str = 'shop'
 
     use_l10n:bool = True
     language_code = 'en'
