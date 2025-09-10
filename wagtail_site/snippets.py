@@ -70,7 +70,7 @@ class FormViewSetGroup(SnippetViewSetGroup):
     menu_icon = 'form'
     menu_label = 'Forms'
 
-    menu_order = 400
+    menu_order = 500
 
     add_to_admin_menu = True
 
@@ -81,7 +81,7 @@ class TeamMemberViewSet(SnippetViewSet):
     icon = 'group'
     menu_label = 'Team'
 
-    menu_order = 400
+    menu_order = 500
 
     add_to_admin_menu = True
     inspect_view_enabled = True
@@ -98,7 +98,7 @@ class ReviewViewSet(SnippetViewSet):
     icon = 'comment'
     menu_label = 'Reviews'
 
-    menu_order = 400
+    menu_order = 500
 
     add_to_admin_menu = True
     inspect_view_enabled = True

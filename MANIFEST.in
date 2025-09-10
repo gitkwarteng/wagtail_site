@@ -1,6 +1,7 @@
 recursive-include wagtail_site/*
 recursive-include wagtail_site/analytics *
 recursive-include wagtail_site/search *
+recursive-include wagtail_site/shop *
 recursive-include wagtail_site/templatetags *
 recursive-include wagtail_site/templates *
 recursive-include wagtail_site/static *
