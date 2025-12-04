@@ -83,6 +83,13 @@ class Product(TranslatableMixin, DraftStateMixin, LockableMixin, RevisionMixin, 
         help_text=_("Available quantity in stock")
     )
 
+    checkout_url = models.CharField(
+        _("Checkout URL"),
+        max_length=255,
+        blank=True, null=True,
+        help_text=_("URL to checkout page for this product if checkout is done external."),
+    )
+
 
     objects = ProductManager()
 

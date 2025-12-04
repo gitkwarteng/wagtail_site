@@ -1,4 +1,5 @@
 # Wagtail settings
+import os
 from wagtail.embeds.oembed_providers import youtube, vimeo, twitter, reddit, pinterest
 
 # Search
@@ -45,8 +46,8 @@ WAGTAILEMBEDS_FINDERS = [
     },
     {
         'class': 'wagtail.embeds.finders.instagram',
-        'app_id': 'YOUR INSTAGRAM APP_ID HERE',
-        'app_secret': 'YOUR INSTAGRAM APP_SECRET HERE',
+        'app_id': os.environ.get('INSTAGRAM_APP_ID'),
+        'app_secret': os.environ.get('INSTAGRAM_APP_SECRET'),
     },
 
     # Handles all other oEmbed providers the default way

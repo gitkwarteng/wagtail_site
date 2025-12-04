@@ -57,6 +57,7 @@ class ProductViewSet(SnippetViewSet):
         ], heading="Basic Information"),
 
         MultiFieldPanel([
+            'checkout_url',
             'category',
             'sample_image',
         ], heading="Display Settings"),
