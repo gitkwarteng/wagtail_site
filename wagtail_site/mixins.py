@@ -1,10 +1,13 @@
 import os
 from functools import cached_property
 
-from django.http import JsonResponse
+from django.core.exceptions import ImproperlyConfigured
+from django.core.paginator import InvalidPage
+from django.http import JsonResponse, Http404
 from django.conf import settings
 from django.template.response import TemplateResponse
 from django.utils.translation import gettext_lazy as _
+from django.views.generic.list import MultipleObjectMixin
 from wagtail.contrib.forms.forms import WagtailAdminFormPageForm, FormBuilder
 from wagtail.contrib.forms.models import FormSubmission
 from wagtail.contrib.forms.views import SubmissionsListView
@@ -216,3 +219,95 @@ class DefaultTemplatesMixin:
 
     def get_template_from_settings(self, template_name, default):
         return getattr(settings, template_name, default)
+
+
+class PaginatedListPageMixin(MultipleObjectMixin):
+    """A mixin that adds listing functionality to the page."""
+
+    list_model = None
+
+    list_size = 20
+
+    context_object_name = 'items'
+
+    def paginate_items(self, queryset, page_size, request, **kwargs):
+        """Paginate the queryset, if needed."""
+        paginator = self.get_paginator(
+            queryset,
+            page_size,
+            orphans=self.get_paginate_orphans(),
+            allow_empty_first_page=self.get_allow_empty(),
+        )
+        page_kwarg = self.page_kwarg
+        page = kwargs.get(page_kwarg) or request.GET.get(page_kwarg) or 1
+        try:
+            page_number = int(page)
+        except ValueError:
+            if page == "last":
+                page_number = paginator.num_pages
+            else:
+                raise Http404(
+                    _("Page is not “last”, nor can it be converted to an int.")
+                )
+        try:
+            page = paginator.page(page_number)
+            return paginator, page, page.object_list, page.has_other_pages()
+        except InvalidPage as e:
+            raise Http404(
+                _("Invalid page (%(page_number)s): %(message)s")
+                % {"page_number": page_number, "message": str(e)}
+            )
+
+    def get_context(self, request, *args, **kwargs):
+        context = super().get_context(request, *args, **kwargs)
+        context.update(self.get_listing_context(request, *args, **kwargs))
+        return context
+
+    def get_listing_context(self, request, *args, **kwargs):
+        queryset = self.get_list_items()
+        page_size = self.get_paginate_by(queryset)
+        context_object_name = self.get_context_object_name(queryset)
+        if page_size:
+            paginator, page, queryset, is_paginated = self.paginate_items(
+                queryset, page_size, request, **kwargs
+            )
+            context = {
+                "paginator": paginator,
+                "page_obj": page,
+                "is_paginated": is_paginated,
+                "object_list": queryset,
+            }
+        else:
+            context = {
+                "paginator": None,
+                "page_obj": None,
+                "is_paginated": False,
+                "object_list": queryset,
+            }
+
+        context[context_object_name] = queryset
+
+        return context
+
+    def get_paginate_by(self, queryset):
+        return self.list_size
+
+    def get_queryset(self):
+        return self.get_list_items()
+
+    def get_list_items(self):
+        if not self.list_model:
+            raise ImproperlyConfigured(
+                "%(cls)s is missing a list_model. Define "
+                "%(cls)s.list_model or override %(cls)s.get_list_items() " % {"cls": self.__class__.__name__}
+            )
+
+        items = self.list_model._default_manager.all()
+
+        ordering = self.get_ordering()
+        if ordering:
+            if isinstance(ordering, str):
+                ordering = (ordering,)
+            items = items.order_by(*ordering)
+
+        return items
