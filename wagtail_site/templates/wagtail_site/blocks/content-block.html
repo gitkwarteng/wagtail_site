@@ -7,12 +7,16 @@
             {% include_block value.heading %}
         {% endif %}
         <div class="col-12">
-        {% if value.embed %}
-            {{ value.embed|safe }}
-        {% endif %}
-        {% if value.content %}
-            {{ value.content|richtext|safe }}
-        {% endif %}
+            {% if value.content %}
+                <article class="py-3">
+                    {{ value.content|richtext }}
+                </article>
+            {% endif %}
+            {% if value.embed %}
+                <article class="py-3">
+                    {{ value.embed|safe }}
+                </article>
+            {% endif %}
         </div>
     {% elif not value.content and not value.embed %}
         {% if value.heading %}
@@ -25,12 +29,17 @@
         <!-- Text block -->
         <div class="col col-12 col-md-6{% if value.direction == 'rtl' %} order-md-2{% endif %} ">
             {% include_block value.heading %}
-            {% if value.embed %}
-                {{ value.embed|safe }}
-            {% endif %}
             {% if value.content %}
-                {{ value.content|safe }}
+                <article class="py-3">
+                    {{ value.content|richtext }}
+                </article>
             {% endif %}
+            {% if value.embed %}
+                <article class="py-3">
+                    {{ value.embed|safe }}
+                </article>
+            {% endif %}
+
         </div>
         <!-- Image block -->
         <div class="col col-12 col-md-6 order-1">
