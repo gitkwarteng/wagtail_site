@@ -6,8 +6,15 @@
         {% if value.heading %}
             {% include_block value.heading %}
         {% endif %}
-        <div class="col-12">{{ value.content|safe }}</div>
-    {% elif not value.content %}
+        <div class="col-12">
+        {% if value.embed %}
+            {{ value.embed|safe }}
+        {% endif %}
+        {% if value.content %}
+            {{ value.content|richtext|safe }}
+        {% endif %}
+        </div>
+    {% elif not value.content and not value.embed %}
         {% if value.heading %}
             {% include_block value.heading %}
         {% endif %}
@@ -17,10 +24,13 @@
     {% else %}
         <!-- Text block -->
         <div class="col col-12 col-md-6{% if value.direction == 'rtl' %} order-md-2{% endif %} ">
-
             {% include_block value.heading %}
-
-            {{ value.content|richtext }}
+            {% if value.embed %}
+                {{ value.embed|safe }}
+            {% endif %}
+            {% if value.content %}
+                {{ value.content|safe }}
+            {% endif %}
         </div>
         <!-- Image block -->
         <div class="col col-12 col-md-6 order-1">

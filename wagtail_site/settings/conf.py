@@ -20,8 +20,8 @@ WAGTAIL_APPS = [
     'widget_tweaks',
 
     "post_office",
-
     "wagtail_site",
+    "wagtail_site.shop",
 
 ]
 

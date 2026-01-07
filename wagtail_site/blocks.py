@@ -40,6 +40,7 @@ class CaptionedImageBlock(blocks.StructBlock):
 class WebPageContentStreamBlock(blocks.StructBlock):
     heading = WebPageHeadingBlock(required=False)
     content = blocks.RichTextBlock(required=False)
+    embed = blocks.TextBlock(required=False)
     image = CaptionedImageBlock(required=False)
     direction = blocks.ChoiceBlock(
         choices=ContentDirectionChoices.choices, default=ContentDirectionChoices.LEFT_TO_RIGHT,
