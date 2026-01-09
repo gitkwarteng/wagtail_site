@@ -176,12 +176,13 @@ class Review(TranslatableMixin, DraftStateMixin, RevisionMixin, Orderable):
 
 
 
-class WebPage(AbstractWebPage, Page):
+class WebPage(AbstractFormWebPage, Page):
 
     content_panels = Page.content_panels + [
         'banners',
         'team_members',
         'page_reviews',
+        'form',
         'body'
     ]
 
