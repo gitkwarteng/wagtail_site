@@ -1,13 +1,24 @@
 from django.core.exceptions import PermissionDenied
-from django.urls import reverse
-from django.utils.translation import gettext
-from django.views import View
-from wagtail.contrib.forms.views import FormPagesListView, SubmissionsListView
+from django.shortcuts import get_object_or_404
+from django.utils.functional import classproperty
+from django.utils.translation import gettext_lazy
+from wagtail.admin.ui.tables import TitleColumn
+from wagtail.admin.views.pages.listing import PageListingMixin
+from wagtail.contrib.forms.views import FormPagesListView, SubmissionsListView, ContentTypeColumn
+from wagtail.models import Page
 
 from .utils import get_form_pages_for_user
 
 
 # Create your views here.
+
+
+def get_submissions_list_view(request, *args, **kwargs):
+    """Call the form page's list submissions view class"""
+    page_id = kwargs.get("page_id")
+    form_page = get_object_or_404(Page, id=page_id).specific
+    return form_page.serve_submissions_list_view(request, *args, **kwargs)
+
 
 class WebPageFormListView(FormPagesListView):
 
@@ -16,10 +27,37 @@ class WebPageFormListView(FormPagesListView):
         pages = get_form_pages_for_user(self.request.user).select_related("content_type")
         return self.annotate_queryset(pages)
 
+    @classproperty
+    def columns(self):
+        columns = [
+            col for col in PageListingMixin.columns if col.name not in {"title", "type"}
+        ]
+        columns.insert(
+            1,
+            TitleColumn(
+                "title",
+                classname="title",
+                label=gettext_lazy("Title"),
+                url_name="submissions:page-submissions",
+                sort_key="title",
+                width="30%",
+            ),
+        )
+        columns.insert(
+            -1,
+            ContentTypeColumn(
+                "content_type",
+                label=gettext_lazy("Origin"),
+                sort_key="content_type",
+                width="20%",
+            ),
+        )
+        return columns
+
 
 class FormSubmissionsListView(SubmissionsListView):
 
-    forms_index_url_name = "submission:index"
+    forms_index_url_name = "submissions:index"
 
     def dispatch(self, request, *args, **kwargs):
         """Check permissions and set the form page"""

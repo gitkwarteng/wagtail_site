@@ -1,11 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from wagtail.contrib.forms.models import FormSubmission
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 from wagtail.admin.viewsets.base import ViewSet
 
 
 from .models import FooterText, WebPageBanner, FormField, PageForm, TeamMember, Review
-from .views import WebPageFormListView
+from .views import WebPageFormListView, get_submissions_list_view
 
 
 class FooterTextViewSet(SnippetViewSet):
@@ -57,11 +57,25 @@ class FormSubmissionViewSet(ViewSet):
     model = FormSubmission
     icon = 'table'
     menu_label = 'Submissions'
-    name = "submission"
+    name = "submissions"
+    url_namespace = 'submissions'
+    # url_prefix = 'forms'
 
     def get_urlpatterns(self):
         return [
-            path('', WebPageFormListView.as_view(), name='index')
+            path('', WebPageFormListView.as_view(), name='index'),
+            path(
+                "results/", WebPageFormListView.as_view(results_only=True), name="index-results"
+            ),
+            path(
+                "page/<int:page_id>/", get_submissions_list_view, name="page-submissions"
+            ),
+            path(
+                "page/<int:page_id>/results/",
+                get_submissions_list_view,
+                {"results_only": True},
+                name="list-submissions-results",
+            ),
         ]
 
 
