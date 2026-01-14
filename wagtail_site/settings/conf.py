@@ -1,5 +1,6 @@
 
 WAGTAIL_APPS = [
+    'django.contrib.postgres'
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
     "wagtail.embeds",
