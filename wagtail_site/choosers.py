@@ -83,7 +83,7 @@ class TeamMemberChooserViewSet(ChooserViewSet):
         'name', 'image', 'profile'
     ]
 
-team_member_chooser_viewset = FormChooserViewSet("team_member")
+team_member_chooser_viewset = TeamMemberChooserViewSet("team_member")
 
 
 class ReviewChooserViewSet(ChooserViewSet):
@@ -100,4 +100,4 @@ class ReviewChooserViewSet(ChooserViewSet):
         'name', 'image', 'content'
     ]
 
-review_chooser_viewset = FormChooserViewSet("page_review")
+review_chooser_viewset = ReviewChooserViewSet("page_review")

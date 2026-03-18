@@ -4,7 +4,7 @@ from typing import List, Tuple, Dict, Optional, Any
 
 from django_settings.settings import DjangoSettings
 
-from wagtail_site.settings.conf import WAGTAIL_APPS, WAGTAIL_MIDDLEWARE, WAGTAIL_TEMPLATE_PROCESSORS
+from wagtail_site.settings.conf import WAGTAIL_APPS, WAGTAIL_MIDDLEWARE, WAGTAIL_TEMPLATE_PROCESSORS, POSTGRES_APPS
 
 
 @dataclass(frozen=False, kw_only=False)
@@ -31,6 +31,7 @@ class WagtailSiteSettings(DjangoSettings):
 
     use_l10n:bool = True
     language_code = 'en'
+    use_postgres: bool = True
 
     def __post_init__(self):
         super().__post_init__()
@@ -87,7 +88,10 @@ class WagtailSiteSettings(DjangoSettings):
 
     def add_wagtail_site_settings(self):
         # add wagtail apps
-        for app in WAGTAIL_APPS:
+
+        all_apps = POSTGRES_APPS + WAGTAIL_APPS if self.use_postgres else WAGTAIL_APPS
+
+        for app in all_apps:
             if app not in self.installed_apps:
                 self.installed_apps.append(app)
 

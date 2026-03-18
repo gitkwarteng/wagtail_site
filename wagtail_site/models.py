@@ -94,12 +94,12 @@ class WebPageBanner(Orderable):
     content = RichTextField(blank=True, null=True, verbose_name="Description")
     size = models.CharField(
         max_length=5, blank=True, null=True,
-        choices=HeadingSizeChoices.choices,
+        choices=HeadingSizeChoices,
         default=HeadingSizeChoices.H1, verbose_name="Size"
     )
     position = models.CharField(
         max_length=5, blank=True, null=True,
-        choices=ContentAlignmentChoices.choices,
+        choices=ContentAlignmentChoices,
         default=ContentAlignmentChoices.BOTTOM_LEFT, verbose_name="Position"
     )
 
